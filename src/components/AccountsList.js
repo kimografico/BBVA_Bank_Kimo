@@ -20,23 +20,26 @@ export class AccountsList extends LitElement {
     }
 
     return html`
-      <table>
-        ${this.accounts.map(
-          account => html`
-            <tr>
-              <td>
-                <p class="alias">${account.alias}</p>
-                <p class="iban">${account.number.iban}</p>
-              </td>
-              <td>
-                <span class="amount ${account.amount.currency}"
-                  >${account.amount.amount}</span
-                >
-              </td>
-            </tr>
-          `,
-        )}
-      </table>
+      <div class="container">
+        <h2>Cuentas</h2>
+        <table>
+          ${this.accounts.map(
+            account => html`
+              <tr>
+                <td>
+                  <p class="alias">${account.alias}</p>
+                  <p class="iban">${account.number.iban}</p>
+                </td>
+                <td>
+                  <span class="amount ${account.amount.currency}"
+                    >${account.amount.amount}</span
+                  >
+                </td>
+              </tr>
+            `,
+          )}
+        </table>
+      </div>
     `;
   }
 }

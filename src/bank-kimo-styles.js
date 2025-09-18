@@ -6,13 +6,19 @@ const styles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     font-size: calc(10px + 2vmin);
     color: #1a2b42;
-    max-width: 960px;
     margin: 0 auto;
     text-align: center;
     background-color: var(--bank-kimo-background-color);
+    overflow-x: hidden;
+  }
+
+  .container {
+    flex: 1;
+    align-content: center;
+    align-self: center;
+    max-width: 1280px;
   }
 
   main {
