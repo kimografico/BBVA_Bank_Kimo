@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit';
-import styles from './AccountsList-styles.js';
+import styles from '../styles/AccountsList-styles.js';
 import './EditAliasModal.js';
 import { AccountService } from '../services/AccountService.js';
 

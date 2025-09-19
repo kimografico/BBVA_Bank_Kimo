@@ -1,5 +1,5 @@
 import { html, LitElement } from 'lit';
-import styles from './bank-kimo-styles.js';
+import styles from './styles/bank-kimo-styles.js';
 import { AccountService } from './services/AccountService.js';
 import './components/AccountsList.js';
 import './components/Header.js';

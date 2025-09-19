@@ -1,5 +1,5 @@
 import { LitElement, html } from 'lit';
-import styles from './EditAliasModal-styles.js';
+import styles from '../styles/EditAliasModal-styles.js';
 
 // TODO: en un futuro, Intentar hacer el modal reutilizable, pasándole "Alias" como parámetro a cambiar.
 export class EditAliasModal extends LitElement {
@@ -60,8 +60,12 @@ export class EditAliasModal extends LitElement {
             />
           </label>
           <menu>
-            <button type="button" @click=${this._save}>CAMBIAR</button>
-            <button type="button" @click=${this._close}>Cancelar</button>
+            <button type="button" id="saveBtn" @click=${this._save}>
+              CAMBIAR
+            </button>
+            <button type="button" id="closeBtn" @click=${this._close}>
+              Cancelar
+            </button>
           </menu>
         </form>
       </dialog>

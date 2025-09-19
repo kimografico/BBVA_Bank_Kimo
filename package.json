@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js,.html . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
     "format": "eslint --ext .js,.html . --fix --ignore-path .gitignore && prettier \"**/*.js\" --write --ignore-path .gitignore",
     "prepare": "husky",
-    "test": "cls && web-test-runner --debug --verbose",
+    "test": "cls && web-test-runner",
     "test:coverage": "web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",
     "build": "rimraf dist && rollup -c rollup.config.js && npm run analyze -- --exclude dist",
@@ -30,6 +30,7 @@
     "@web/rollup-plugin-html": "^2.3.0",
     "@web/rollup-plugin-import-meta-assets": "^2.2.1",
     "@web/test-runner": "^0.18.2",
+    "@web/test-runner-mocha": "^0.9.0",
     "babel-plugin-template-html-minifier": "^4.1.0",
     "deepmerge": "^4.3.1",
     "eslint": "^8.57.0",
@@ -40,7 +41,8 @@
     "rimraf": "^5.0.9",
     "rollup": "^4.18.1",
     "rollup-plugin-esbuild": "^6.1.1",
-    "rollup-plugin-workbox": "^8.1.0"
+    "rollup-plugin-workbox": "^8.1.0",
+    "sinon": "^21.0.0"
   },
   "eslintConfig": {
     "extends": [
