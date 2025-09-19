@@ -4,8 +4,8 @@ export class BankFooter extends LitElement {
   static styles = css`
     footer {
       font-size: 0.9rem;
-      background-color: #001391;
-      color: #aab2e4;
+      background-color: var(--primary-color);
+      color: var(--text-color-light);
       text-align: left;
       width: 100vw;
       margin-top: 25px;

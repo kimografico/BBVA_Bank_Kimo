@@ -7,11 +7,12 @@ const styles = css`
     flex-direction: column;
     align-items: center;
     font-size: calc(10px + 2vmin);
-    color: #1a2b42;
+    color: var(--text-color);
     margin: 0 auto;
     text-align: center;
-    background-color: var(--bank-kimo-background-color);
     overflow-x: hidden;
+    padding-top: 120px;
+    box-sizing: border-box;
   }
 
   .container {
@@ -25,27 +26,10 @@ const styles = css`
     flex-grow: 1;
   }
 
-  .logo {
-    margin-top: 36px;
-    animation: app-logo-spin infinite 20s linear;
-  }
-
-  @keyframes app-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  .app-footer {
-    font-size: calc(12px + 0.5vmin);
-    align-items: center;
-  }
-
-  .app-footer a {
-    margin-left: 5px;
+  bk-header {
+    position: fixed;
+    top: 0;
+    z-index: 10;
   }
 `;
 

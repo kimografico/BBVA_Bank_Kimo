@@ -6,12 +6,12 @@ export class BankHeader extends LitElement {
       font-family: 'Source Serif 4', serif;
       font-weight: 700;
       font-size: 1.75rem;
-      background-color: #001391;
+      background-color: var(--primary-color);
       color: white;
       text-align: left;
       width: 100vw;
       margin-bottom: 25px;
-      border-bottom: 6px solid #070e46;
+      border-bottom: 6px solid var(--primary-color-dark);
       display: flex;
       justify-content: center;
 

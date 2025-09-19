@@ -2,6 +2,7 @@ import { css } from 'lit';
 
 const styles = css`
   * {
+    /* outline: 2px solid red; */
     margin: 0px;
     box-sizing: border-box;
   }
@@ -14,7 +15,7 @@ const styles = css`
   h2 {
     font-family: 'Sansation', sans-serif;
     text-align: left;
-    border-bottom: 4px solid #001391;
+    border-bottom: 4px solid var(--primary-color);
     padding-bottom: 5px;
     margin: 0 0 20px 10px;
     width: calc(100% - 15px);
@@ -51,8 +52,14 @@ const styles = css`
       vertical-align: bottom;
       text-align: left;
       padding: 15px 25px;
+      min-height: 75px;
       &:first-child {
         width: 300px;
+      }
+      &:nth-child(2) {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
       }
     }
   }
@@ -80,12 +87,10 @@ const styles = css`
 
   .EUR::after {
     content: '€';
-    margin-left: 5px;
   }
 
   .USD::before {
     content: '$';
-    margin-right: 5px;
   }
 
   .error {
@@ -94,6 +99,27 @@ const styles = css`
     font-size: 2rem;
     color: red;
     padding: 25px;
+  }
+
+  button {
+    background: #d5d5d5;
+    border-radius: 20px;
+    border: 1px solid var(--primary-color);
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    padding: 5px 10px;
+    transition: 0.5s;
+    &:hover {
+      cursor: pointer;
+      background: var(--primary-color);
+      color: white;
+    }
+  }
+
+  #error {
+    color: red;
+    margin-top: 25px;
+    font-size: 1rem;
   }
 
   @media (max-width: 1280px) and (min-width: 641px) {
@@ -115,6 +141,7 @@ const styles = css`
         }
         &:last-child {
           padding-bottom: 15px;
+          align-items: flex-start;
         }
       }
     }

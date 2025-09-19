@@ -1,5 +1,7 @@
 import { html, LitElement } from 'lit';
 import styles from './AccountsList-styles.js';
+import './EditAliasModal.js';
+import { AccountService } from '../services/AccountService.js';
 
 export class AccountsList extends LitElement {
   static styles = styles;
@@ -12,6 +14,29 @@ export class AccountsList extends LitElement {
   constructor() {
     super();
     this.name = 'Kimo';
+  }
+
+  openEditModal(id, alias) {
+    this.editingId = id;
+    this.editingAlias = alias;
+    this.shadowRoot
+      .querySelector('bk-edit-alias-modal')
+      .openModal(id, alias, this.accounts);
+  }
+
+  _handleSaveAlias(event) {
+    const { id, alias } = event.detail; // DESESTRUCTURACIÓN: const id = event.detail.id; const alias = event.detail.alias;
+
+    const errorContainer = this.shadowRoot.getElementById('error');
+    const message = AccountService.updateAccountAlias(id, alias);
+    if (message.includes('éxito')) {
+      errorContainer.style.color = 'var(--primary-color)';
+    } else {
+      errorContainer.style.color = 'red';
+    }
+    errorContainer.innerText = message;
+
+    this.accounts = [...AccountService.getAccounts()]; // Para que se detecte y renderice el cambio hay que crear una copia de la lista
   }
 
   render() {
@@ -27,19 +52,35 @@ export class AccountsList extends LitElement {
             account => html`
               <tr>
                 <td>
-                  <p class="alias">${account.alias}</p>
+                  <p class="alias">${account.alias.toUpperCase()}</p>
                   <p class="iban">${account.number.iban}</p>
                 </td>
                 <td>
-                  <span class="amount ${account.amount.currency}"
-                    >${account.amount.amount}</span
+                  <span class="amount ${account.amount.currency}">
+                    ${account.amount.amount}
+                  </span>
+                  <button
+                    @click=${() =>
+                      this.openEditModal(
+                        account.id,
+                        account.alias,
+                        this.accounts,
+                      )}
                   >
+                    EDITAR ALIAS
+                  </button>
                 </td>
               </tr>
             `,
           )}
         </table>
       </div>
+      <bk-edit-alias-modal
+        .id=${this.editingId}
+        .alias=${this.editingAlias}
+        @save-alias=${this._handleSaveAlias}
+      ></bk-edit-alias-modal>
+      <p id="error"></p>
     `;
   }
 }
