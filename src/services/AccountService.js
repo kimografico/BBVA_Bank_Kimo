@@ -66,19 +66,17 @@ export const AccountService = {
   },
 
   updateAccountAlias(id, alias) {
-    if (
-      alias ===
-      this._accounts.find(account => account.id === id).alias.toUpperCase()
-    )
-      return '⚠️ No se pudo cambiar el alias, el nuevo alias es el mismo que el antiguo';
-    if (this.aliasExist(alias))
-      return '⚠️ No se pudo cambiar el alias, ese alias ya existe';
-
     const account = this._accounts.find(acc => acc.id === id); // Esto es una referencia al array (no una copia). Se enlaza
 
     if (!account) {
       return '❌ Error! La cuenta no existe';
     }
+
+    if (alias === this._accounts.find(acc => acc.id === id).alias.toUpperCase())
+      return '⚠️ No se pudo cambiar el alias, el nuevo alias es el mismo que el antiguo';
+
+    if (this.aliasExist(alias))
+      return '⚠️ No se pudo cambiar el alias, ese alias ya existe';
 
     account.alias = alias; // Aqui se hace el cambio, sin necesidad de sustituir el array completo
     return '✅ Se ha cambiado el alias con éxito';

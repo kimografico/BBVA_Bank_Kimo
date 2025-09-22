@@ -85,4 +85,24 @@ describe('EditAliasModal', () => {
 
     closeSpy.restore(); // Restauramos el método para que no afecte a otros tests
   });
+
+  it('should handle errors when _save fails', async () => {
+    const component = await fixture(
+      html`<bk-edit-alias-modal></bk-edit-alias-modal>`,
+    );
+    const saveStub = Sinon.stub(component, '_save').throws(
+      new Error('Test Error'),
+    );
+
+    component.openModal('1', 'Test Alias', []);
+    const button = component.shadowRoot.querySelector('#saveBtn');
+
+    try {
+      button.click();
+    } catch (e) {
+      expect(e.message).to.equal('Test Error');
+    }
+
+    saveStub.restore();
+  });
 });

@@ -1,7 +1,6 @@
 import { LitElement, html } from 'lit';
 import styles from '../styles/EditAliasModal-styles.js';
 
-// TODO: en un futuro, Intentar hacer el modal reutilizable, pasándole "Alias" como parámetro a cambiar.
 export class EditAliasModal extends LitElement {
   static styles = styles;
 
