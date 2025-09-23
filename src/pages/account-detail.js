@@ -1,11 +1,13 @@
 import { LitElement, html, css } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import '../components/AccountDetail.js';
 import { Router } from '@vaadin/router';
+import { AccountService } from '../services/AccountService.js';
 
 export class AccountDetail extends LitElement {
   static properties = {
     accountId: { type: Number },
+    account: { type: Object },
+    error: { type: String },
   };
 
   static styles = css`
@@ -30,6 +32,23 @@ export class AccountDetail extends LitElement {
 
   onBeforeEnter(location) {
     this.accountId = Number(location.params.id);
+    this._loadAccount();
+  }
+
+  async _loadAccount() {
+    this.account = null;
+    this.error = null;
+    try {
+      const acc = await AccountService.getAccount(this.accountId);
+      if (acc) {
+        this.account = acc;
+      } else {
+        this.error =
+          'No se pudo encontrar la cuenta solicitada. Por favor, inténtelo de nuevo.';
+      }
+    } catch (e) {
+      this.error = 'Ocurrió un error al cargar la cuenta.';
+    }
   }
 
   static goBack() {
@@ -39,7 +58,8 @@ export class AccountDetail extends LitElement {
   render() {
     return html`
       <bk-account-detail
-        accountId="${ifDefined(this.accountId)}"
+        .account=${this.account}
+        .error=${this.error}
       ></bk-account-detail>
       <button id="back-button" @click=${AccountDetail.goBack}>
         Volver a la lista
@@ -49,7 +69,3 @@ export class AccountDetail extends LitElement {
 }
 
 customElements.define('account-detail-page', AccountDetail);
-
-// Falta pasar el accountId al componente bk-account-detail por parametro,
-// y luego usarlo en el componente para mostrar la info de la cuenta correspondiente.
-// Accederemos a esa info desde el servicio.
