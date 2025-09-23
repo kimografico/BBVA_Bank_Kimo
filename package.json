@@ -15,11 +15,13 @@
     "build": "rimraf dist && rollup -c rollup.config.js && npm run analyze -- --exclude dist",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
-    "start": "web-dev-server"
+    "start": "web-dev-server",
+    "start:api": "node api/server.js"
   },
   "dependencies": {
     "@vaadin/router": "^2.0.0",
-    "lit": "^3.3.1"
+    "lit": "^3.3.1",
+    "json-server": "^0.17.1"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.10.3",

@@ -1,0 +1,33 @@
+{
+  "accounts": [
+    {
+      "id": "1",
+      "alias": "Cuenta 1",
+      "number": { "iban": "ES9121000418450200051332" },
+      "amount": { "amount": 1000.5, "currency": "EUR" },
+      "level": { "level": 1, "description": "Nivel básico" },
+      "transactions": [
+        {
+          "id": "t1",
+          "description": "Pago recibo",
+          "amount": { "amount": 50.25, "currency": "EUR" },
+          "date": "2024/01/15"
+        },
+        {
+          "id": "t2",
+          "description": "Retirada cajero",
+          "amount": { "amount": -20.0, "currency": "EUR" },
+          "date": "2024/01/10"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "alias": "Cuenta 2",
+      "number": { "iban": "ES6621000418450200051332" },
+      "amount": { "amount": 250.0, "currency": "EUR" },
+      "level": { "level": 2, "description": "Nivel medio" },
+      "transactions": []
+    }
+  ]
+}
