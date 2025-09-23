@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import '../components/AccountDetail.js';
+import { Router } from '@vaadin/router';
 
 export class AccountDetail extends LitElement {
   static properties = {
@@ -32,7 +33,7 @@ export class AccountDetail extends LitElement {
   }
 
   static goBack() {
-    window.location.href = '/accounts';
+    Router.go('/accounts');
   }
 
   render() {

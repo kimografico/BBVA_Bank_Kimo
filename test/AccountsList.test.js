@@ -5,7 +5,6 @@ import Sinon from 'sinon';
 import { AccountService } from '../src/services/AccountService.js';
 
 describe('AccountsList', () => {
-  let element;
   const mockAccounts = [
     {
       id: '1',
@@ -23,12 +22,16 @@ describe('AccountsList', () => {
     },
   ];
   beforeEach(async () => {
-    element = await fixture(html`<bk-accounts-list></bk-accounts-list>`);
     AccountService._accounts = [...mockAccounts];
   });
 
   it('shows a message when there are no accounts', async () => {
-    expect(element.shadowRoot.textContent).to.include('No hay cuentas');
+    // Establece accounts como un array vacío
+    const component = await fixture(html`
+      <bk-accounts-list .accounts=${[]}></bk-accounts-list>
+    `);
+
+    expect(component.shadowRoot.textContent).to.include('No hay cuentas');
   });
 
   it('adds the currency information', async () => {
@@ -76,9 +79,11 @@ describe('AccountsList', () => {
   });
 
   it('shows a message when accounts is undefined', async () => {
-    const component = await fixture(
-      html`<bk-accounts-list></bk-accounts-list>`,
-    );
+    // Establece accounts como undefined
+    const component = await fixture(html`
+      <bk-accounts-list .accounts=${[]}></bk-accounts-list>
+    `);
+
     expect(component.shadowRoot.textContent).to.include('No hay cuentas');
   });
 

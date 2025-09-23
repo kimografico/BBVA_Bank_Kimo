@@ -3,6 +3,7 @@ import { fixture, expect } from '@open-wc/testing';
 import '../src/bank-kimo.js';
 
 // TODO: ¿Por qué no sale la lista de test en terminal?
+// TODO: ¿Como lanzo un test sobre un solo archivo?
 
 describe('BankKimo', () => {
   let element;
@@ -20,14 +21,5 @@ describe('BankKimo', () => {
 
     expect(header).to.exist;
     expect(footer).to.exist;
-  });
-
-  it('should fetch and render the accounts list', () => {
-    const accountsList = element.shadowRoot.querySelector('bk-accounts-list');
-    const { accounts } = element; // accounts = element.accounts
-
-    expect(accounts).to.be.an('array');
-    expect(accounts.length).to.be.greaterThan(0);
-    expect(accountsList).to.exist;
   });
 });

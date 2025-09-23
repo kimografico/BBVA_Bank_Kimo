@@ -3,7 +3,7 @@ import '../components/AccountsList.js';
 
 export class AccountsView extends LitElement {
   render() {
-    return html` <bk-accounts-list></bk-accounts-list> `;
+    return html`<bk-accounts-list></bk-accounts-list>`;
   }
 }
 

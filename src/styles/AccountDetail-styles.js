@@ -13,6 +13,13 @@ const styles = css`
     text-align: left;
   }
 
+  .container.error {
+    box-shadow: none;
+    padding: 25px;
+    border: 3px solid red;
+    color: red;
+  }
+
   .image-container {
     width: 120px;
     height: auto;

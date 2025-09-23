@@ -8,24 +8,38 @@ export class AccountDetail extends LitElement {
   static properties = {
     accountId: { type: Number },
     account: { type: Object },
+    error: { type: String },
   };
 
   constructor() {
     super();
     this.accountId = 0;
     this.account = null;
+    this.error = null;
   }
 
-  updated(changedProperties) {
+  async willUpdate(changedProperties) {
     if (changedProperties.has('accountId')) {
-      this._getAccountDetails();
+      await this._getAccountDetails();
     }
   }
 
   async _getAccountDetails() {
-    const account = await AccountService.getAccount(this.accountId);
-    if (account) {
-      this.account = account;
+    try {
+      const account = await AccountService.getAccount(this.accountId);
+      if (account) {
+        if (JSON.stringify(this.account) !== JSON.stringify(account)) {
+          this.account = account; // Solo actualiza si los datos son diferentes
+        }
+        this.error = null;
+      } else {
+        this.account = null;
+        this.error =
+          'No se pudo encontrar la cuenta solicitada. Por favor, inténtelo de nuevo.';
+      }
+    } catch (e) {
+      this.account = null;
+      this.error = 'Ocurrió un error al cargar la cuenta.';
     }
   }
 
@@ -34,14 +48,20 @@ export class AccountDetail extends LitElement {
   }
 
   render() {
+    const containerClass = this.error ? 'container error' : 'container';
+
+    if (this.error) {
+      return html`<div class="${containerClass}">${this.error}</div>`;
+    }
+
     if (!this.account) {
-      return html`<div class="container">
+      return html`<div class="${containerClass}">
         Cargando detalles de la cuenta...
       </div>`;
     }
 
     return html`
-      <div class="container">
+      <div class="${containerClass}">
         <div class="image-container">
           <img src="/assets/account-image.jpg" alt="Fondo" />
         </div>
@@ -60,6 +80,10 @@ export class AccountDetail extends LitElement {
             <p>
               <strong>Saldo:</strong>
               ${this.account.amount.amount} ${this.account.amount.currency}
+            </p>
+            <p>
+              <strong>Nivel:</strong>
+              ${this.account.level.description}
             </p>
           </div>
         </div>

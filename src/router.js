@@ -1,15 +1,20 @@
 import { Router } from '@vaadin/router';
 
 export function initRouter(outlet, loader) {
-  const router = new Router(outlet);
+  const localLoader = loader;
+  const activateLoader = () => {
+    if (localLoader) localLoader.active = true;
+  };
+  const deactivateLoader = () => {
+    if (localLoader) localLoader.active = false;
+  };
 
-  router.setRoutes([
+  const routes = [
     {
       path: '/',
       component: 'accounts-page',
       action: async () => {
-        const localLoader = loader;
-        localLoader.active = true;
+        activateLoader();
 
         // Retraso para ver que funciona el loader.
         // TODO: Eliminar despues de la demo
@@ -18,69 +23,51 @@ export function initRouter(outlet, loader) {
         });
 
         await import('./pages/accounts.js');
-
-        if (localLoader) {
-          localLoader.active = false;
-        }
+        deactivateLoader();
       },
-      onBeforeEnter: () => {
-        const localLoader = loader;
-        if (localLoader) localLoader.active = true;
-      },
-      onAfterEnter: () => {
-        const localLoader = loader;
-        if (localLoader) localLoader.active = false;
-      },
+      onBeforeEnter: activateLoader,
+      onAfterEnter: deactivateLoader,
     },
 
     {
       path: '/accounts',
       component: 'accounts-page',
       action: async () => {
+        activateLoader();
         await import('./pages/accounts.js');
+        deactivateLoader();
       },
-      onBeforeEnter: () => {
-        const localLoader = loader;
-        if (localLoader) localLoader.active = true;
-      },
-      onAfterEnter: () => {
-        const localLoader = loader;
-        if (localLoader) localLoader.active = false;
-      },
+      onBeforeEnter: activateLoader,
+      onAfterEnter: deactivateLoader,
     },
 
     {
       path: '/accounts/:id',
       component: 'account-detail-page',
       action: async () => {
+        activateLoader();
         await import('./pages/account-detail.js');
+        deactivateLoader();
       },
-      onBeforeEnter: () => {
-        const localLoader = loader;
-        if (localLoader) localLoader.active = true;
-      },
-      onAfterEnter: () => {
-        const localLoader = loader;
-        if (localLoader) localLoader.active = false;
-      },
+      onBeforeEnter: activateLoader,
+      onAfterEnter: deactivateLoader,
     },
 
     {
       path: '(.*)',
       component: 'page-not-found',
       action: async () => {
+        activateLoader();
         await import('./pages/404.js');
+        deactivateLoader();
       },
-      onBeforeEnter: () => {
-        const localLoader = loader;
-        if (localLoader) localLoader.active = true;
-      },
-      onAfterEnter: () => {
-        const localLoader = loader;
-        if (localLoader) localLoader.active = false;
-      },
+      onBeforeEnter: activateLoader,
+      onAfterEnter: deactivateLoader,
     },
-  ]);
+  ];
 
-  return router;
+  const router = new Router(outlet);
+  router.setRoutes(routes);
+
+  return { router, routes };
 }
