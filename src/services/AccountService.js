@@ -61,6 +61,11 @@ export const AccountService = {
     return this._accounts;
   },
 
+  getAccount(id) {
+    const found = this._accounts.find(account => Number(account.id) === id);
+    return found;
+  },
+
   aliasExist(alias) {
     return Boolean(this._accounts.find(account => account.alias === alias));
   },

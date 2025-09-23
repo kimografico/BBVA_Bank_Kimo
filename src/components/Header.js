@@ -1,40 +1,8 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html } from 'lit';
+import styles from '../styles/header-styles.js';
 
 export class BankHeader extends LitElement {
-  static styles = css`
-    header {
-      font-family: 'Source Serif 4', serif;
-      font-weight: 700;
-      font-size: 1.75rem;
-      background-color: var(--primary-color);
-      color: white;
-      text-align: left;
-      width: 100vw;
-      margin-bottom: 25px;
-      border-bottom: 6px solid var(--primary-color-dark);
-      display: flex;
-      justify-content: center;
-
-      div {
-        max-width: 1280px;
-        width: calc(100% - 50px);
-      }
-
-      h1 {
-        margin: 0;
-      }
-    }
-
-    @media (max-width: 640px) {
-      header {
-        font-size: 1.6rem;
-        text-align: center;
-        h1 {
-          padding: 20px;
-        }
-      }
-    }
-  `;
+  static styles = styles;
 
   static properties = {
     bankTitle: { type: String },
@@ -49,6 +17,11 @@ export class BankHeader extends LitElement {
     return html` <header>
       <div>
         <h1>${this.bankTitle}</h1>
+        <ul>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/accounts">Cuentas</a></li>
+          <li><a href="/secretos">Secretos</a></li>
+        </ul>
       </div>
     </header>`;
   }

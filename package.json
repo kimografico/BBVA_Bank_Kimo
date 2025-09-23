@@ -18,6 +18,7 @@
     "start": "web-dev-server"
   },
   "dependencies": {
+    "@vaadin/router": "^2.0.0",
     "lit": "^3.3.1"
   },
   "devDependencies": {

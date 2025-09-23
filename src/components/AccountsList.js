@@ -1,4 +1,5 @@
 import { html, LitElement } from 'lit';
+import { Router } from '@vaadin/router';
 import styles from '../styles/AccountsList-styles.js';
 import './EditAliasModal.js';
 import { AccountService } from '../services/AccountService.js';
@@ -7,13 +8,12 @@ export class AccountsList extends LitElement {
   static styles = styles;
 
   static properties = {
-    name: { type: String },
     accounts: { type: Array },
   };
 
   constructor() {
     super();
-    this.name = 'Kimo';
+    this.accounts = AccountService.getAccounts();
   }
 
   openEditModal(id, alias) {
@@ -50,7 +50,7 @@ export class AccountsList extends LitElement {
         <table>
           ${this.accounts.map(
             account => html`
-              <tr>
+              <tr @click=${() => Router.go(`/accounts/${account.id}`)}>
                 <td>
                   <p class="alias">${account.alias.toUpperCase()}</p>
                   <p class="iban">${account.number.iban}</p>
@@ -60,12 +60,14 @@ export class AccountsList extends LitElement {
                     ${account.amount.amount}
                   </span>
                   <button
-                    @click=${() =>
+                    @click=${e => {
+                      e.stopPropagation();
                       this.openEditModal(
                         account.id,
                         account.alias,
                         this.accounts,
-                      )}
+                      );
+                    }}
                   >
                     EDITAR ALIAS
                   </button>

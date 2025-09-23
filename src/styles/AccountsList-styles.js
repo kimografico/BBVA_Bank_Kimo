@@ -36,7 +36,7 @@ const styles = css`
 
   table {
     border-spacing: 0px;
-    background-color: #ddd;
+    background-color: rgba(var(--primary-color-rgb), 0.05);
     border-radius: 20px;
     overflow: hidden;
     font-family: 'Sansation', sans-serif;
@@ -44,11 +44,19 @@ const styles = css`
     max-width: 100%;
 
     tr:nth-child(odd) {
-      background-color: #ccc;
+      background-color: rgba(var(--primary-color-rgb), 0.05);
+    }
+
+    tr:hover {
+      background-color: var(--primary-color);
+      cursor: pointer;
+      p,
+      span {
+        color: white;
+      }
     }
 
     td {
-      /* outline: 1px solid #d5d5d5; */
       vertical-align: bottom;
       text-align: left;
       padding: 15px 25px;
@@ -102,7 +110,7 @@ const styles = css`
   }
 
   button {
-    background: #d5d5d5;
+    background: #e1e2e8;
     border-radius: 20px;
     border: 1px solid var(--primary-color);
     font-size: 0.8rem;
@@ -112,6 +120,7 @@ const styles = css`
     &:hover {
       cursor: pointer;
       background: var(--primary-color);
+      border: 1px solid white;
       color: white;
     }
   }
