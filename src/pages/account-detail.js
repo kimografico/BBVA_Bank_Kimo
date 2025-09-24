@@ -41,12 +41,18 @@ export class AccountDetail extends LitElement {
     this.error = null;
     try {
       const acc = await AccountService.getAccount(this.accountId);
-      const transactions = await AccountService.getAccountTransactions(
-        this.accountId,
-      );
       if (acc) {
         this.account = acc;
-        this.transactions = transactions;
+
+        try {
+          const transactions = await AccountService.getAccountTransactions(
+            this.accountId,
+          );
+          this.transactions = transactions;
+        } catch (err) {
+          this.transactions = [];
+          this.error = 'No se pudieron cargar las transacciones.';
+        }
       } else {
         this.error =
           'No se pudo encontrar la cuenta solicitada. Por favor, inténtelo de nuevo.';

@@ -26,7 +26,8 @@ export class AccountDetail extends LitElement {
   }
 
   _sortByDate() {
-    const sortedTransactions = [...this.transactions].sort((a, b) => {
+    const list = Array.isArray(this.transactions) ? this.transactions : [];
+    const sortedTransactions = [...list].sort((a, b) => {
       const da = a?.date ? new Date(a.date) : 0;
       const db = b?.date ? new Date(b.date) : 0;
       return db - da;
@@ -49,7 +50,7 @@ export class AccountDetail extends LitElement {
   _nextPage() {
     const totalPages = Math.max(
       1,
-      Math.ceil(this.transactions.length / this.pageSize),
+      Math.ceil((this.transactions?.length || 0) / this.pageSize),
     );
     if (this.currentPage < totalPages) {
       this.currentPage += 1;

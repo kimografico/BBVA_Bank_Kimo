@@ -36,11 +36,7 @@
       "number": { "iban": "AE950213642574896367215" },
       "amount": { "amount": 1156.1, "currency": "USD" },
       "level": { "level": 2, "description": "International Account" },
-      "transactions": [
-        { "id": "3-t1", "description": "Ingreso freelance", "amount": { "amount": 800.0, "currency": "USD" }, "date": "2024/05/20" },
-        { "id": "3-t2", "description": "Pago alojamiento", "amount": { "amount": -120.5, "currency": "USD" }, "date": "2024/05/22" },
-        { "id": "3-t3", "description": "Compra electrónica", "amount": { "amount": -45.0, "currency": "USD" }, "date": "2024/05/25" }
-      ]
+      "transactions": []
     },
     {
       "id": "4",
