@@ -83,7 +83,7 @@ export class AccountDetail extends LitElement {
             <p><strong>Alias:</strong> ${this.account.alias}</p>
             <p>
               <strong>IBAN:</strong>
-              <span class="iban"
+              <span
                 >${AccountDetail._formatIBAN(this.account.number.iban)}</span
               >
             </p>
@@ -128,7 +128,6 @@ export class AccountDetail extends LitElement {
                 </div>
               `,
             )}
-
             <div class="pagination-controls">
               <button
                 class="nav prev"
@@ -150,7 +149,9 @@ export class AccountDetail extends LitElement {
       `;
     }
 
-    return html`${accountSection} ${transactionsSection}`;
+    return html`<div class="big-container">
+      ${accountSection} ${transactionsSection}
+    </div>`;
   }
 }
 customElements.define('bk-account-detail', AccountDetail);

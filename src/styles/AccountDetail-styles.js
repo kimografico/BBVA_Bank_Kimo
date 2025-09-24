@@ -3,6 +3,7 @@ import { css } from 'lit';
 const styles = css`
   .container {
     font-family: 'Sansation', sans-serif;
+    font-size: 1rem;
     display: flex;
     max-width: 800px;
     margin: 0 auto;
@@ -48,9 +49,10 @@ const styles = css`
   .transactions {
     background-color: white;
     color: var(--primary-color);
-    padding: 10px 25px;
+    padding: 8px 25px 3px 25px;
     border-top: 2px solid lightgrey;
     position: relative;
+    min-width: 400px;
   }
 
   .transactions p {
@@ -68,7 +70,7 @@ const styles = css`
 
   .transactions .amount {
     color: var(--text-color);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
 
   .amount.negative {
@@ -91,7 +93,7 @@ const styles = css`
   }
 
   .header h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 0;
     margin-left: 10px;
   }
@@ -102,7 +104,6 @@ const styles = css`
   }
 
   .details p {
-    font-size: 1.25rem;
     color: #555555;
     margin: 15px 10px;
   }
@@ -114,36 +115,45 @@ const styles = css`
   .pagination-controls {
     display: flex;
     justify-content: center;
-    margin-top: 1rem;
-    button {
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      border: 2px solid var(--primary-color);
-      font-size: 1.25rem;
-      color: var(--primary-color);
-      margin: 15px;
-    }
-    button:disabled {
-      opacity: 0.25;
-    }
-    button:hover:enabled {
-      background-color: var(--primary-color);
-      color: white;
-      cursor: pointer;
+    margin-bottom: 10px;
+  }
+
+  .pagination-controls button {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--primary-color);
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin: 15px;
+  }
+
+  .pagination-controls button:disabled {
+    opacity: 0.25;
+  }
+
+  .pagination-controls button:hover:enabled {
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+  }
+
+  .big-container {
+    display: flex;
+    flex-direction: row;
   }
 
   @media (max-width: 640px) {
+    .big-container {
+      display: flex;
+      flex-direction: column;
+    }
     .container {
       width: 350px;
     }
 
     .image-container {
       display: none;
-    }
-
-    .iban {
-      font-size: 1.1rem;
     }
 
     .header h2 {
@@ -157,6 +167,10 @@ const styles = css`
 
     .container {
       margin: 25px;
+    }
+
+    .transactions {
+      min-width: 300px;
     }
 
     .transactions .amount {

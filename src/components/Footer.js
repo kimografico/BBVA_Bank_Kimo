@@ -11,7 +11,7 @@ export class BankFooter extends LitElement {
         var(--primary-color-dark) 125%
       );
       color: var(--text-color-light);
-      text-align: left;
+      text-align: center;
       width: 100vw;
       margin-top: 25px;
       div {
