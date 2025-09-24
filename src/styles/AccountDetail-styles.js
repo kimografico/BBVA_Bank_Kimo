@@ -116,6 +116,7 @@ const styles = css`
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
+    position: relative;
   }
 
   .pagination-controls button {
@@ -136,6 +137,26 @@ const styles = css`
     background-color: var(--primary-color);
     color: white;
     cursor: pointer;
+  }
+
+  #pageSizeDropdown {
+    height: 30px;
+    width: 50px;
+    margin-top: 20px;
+  }
+
+  select,
+  ::picker(select) {
+    appearance: base-select;
+    border: 1px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 1rem;
+    color: var(--primary-color);
+    position: absolute;
+    right: 25px;
+    cursor: pointer;
+    margin-bottom: 5px;
   }
 
   .big-container {

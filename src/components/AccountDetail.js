@@ -34,10 +34,10 @@ export class AccountDetail extends LitElement {
     return sortedTransactions;
   }
 
-  _getPagedTransactions(sorted) {
+  _getPagedTransactions(transactions) {
     const start = (this.currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
-    return sorted.slice(start, end);
+    return transactions.slice(start, end);
   }
 
   _prevPage() {
@@ -53,6 +53,14 @@ export class AccountDetail extends LitElement {
     );
     if (this.currentPage < totalPages) {
       this.currentPage += 1;
+    }
+  }
+
+  _onPageSizeChange(event) {
+    const value = Number(event.target.value);
+    if (Number.isFinite(value) && value > 0) {
+      this.pageSize = value;
+      this.currentPage = 1;
     }
   }
 
@@ -143,6 +151,17 @@ export class AccountDetail extends LitElement {
               >
                 🡪
               </button>
+
+              <select
+                id="pageSizeDropdown"
+                @change=${this._onPageSizeChange}
+                .value=${String(this.pageSize)}
+              >
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+              </select>
             </div>
           </div>
         </div>
