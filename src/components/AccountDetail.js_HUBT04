@@ -1,0 +1,228 @@
+import { html, LitElement } from 'lit';
+import styles from '../styles/AccountDetail-styles.js';
+
+export class AccountDetail extends LitElement {
+  static styles = styles;
+
+  static properties = {
+    account: { type: Object },
+    transactions: { type: Array },
+    error: { type: String },
+    currentPage: { type: Number },
+    pageSize: { type: Number },
+  };
+
+  constructor() {
+    super();
+    this.account = null;
+    this.transactions = [];
+    this.error = null;
+    this.currentPage = 1;
+    this.pageSize = 5;
+  }
+
+  static _formatIBAN(iban) {
+    return iban.replace(/(.{4})/g, '$1\u00A0').trim();
+  }
+
+  _sortByDate() {
+    const list = Array.isArray(this.transactions) ? this.transactions : [];
+    const sortedTransactions = [...list].sort((a, b) => {
+      const da = a?.date ? new Date(a.date) : 0;
+      const db = b?.date ? new Date(b.date) : 0;
+      return db - da;
+    });
+    return sortedTransactions;
+  }
+
+  _getPagedTransactions(transactions) {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return transactions.slice(start, end);
+  }
+
+  _prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage -= 1;
+    }
+  }
+
+  _nextPage() {
+    const totalPages = Math.max(
+      1,
+      Math.ceil((this.transactions?.length || 0) / this.pageSize),
+    );
+    if (this.currentPage < totalPages) {
+      this.currentPage += 1;
+    }
+  }
+
+  _onPageSizeChange(event) {
+    const value = Number(event.target.value);
+    if (Number.isFinite(value) && value > 0) {
+      this.pageSize = value;
+      this.currentPage = 1;
+    }
+  }
+
+  static _groupTransactions(transactions) {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    const formatMonthYear = date =>
+      date.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+
+    return transactions.reduce((groups, transaction) => {
+      const transactionDate = new Date(transaction.date);
+      let group;
+
+      if (transactionDate.toDateString() === today.toDateString()) {
+        group = 'Hoy';
+      } else if (transactionDate.toDateString() === yesterday.toDateString()) {
+        group = 'Ayer';
+      } else if (
+        transactionDate.getMonth() === today.getMonth() &&
+        transactionDate.getFullYear() === today.getFullYear()
+      ) {
+        group = 'Anteriores';
+      } else {
+        group = formatMonthYear(transactionDate);
+      }
+
+      const newGroups = { ...groups };
+      if (!newGroups[group]) {
+        newGroups[group] = [];
+      }
+      newGroups[group].push(transaction);
+      return newGroups;
+    }, {});
+  }
+
+  render() {
+    const containerClass = this.error ? 'container error' : 'container';
+
+    if (this.error) {
+      return html`<div class="${containerClass}">${this.error}</div>`;
+    }
+
+    if (!this.account) {
+      return html`<div class="${containerClass}">
+        Cargando detalles de la cuenta...
+      </div>`;
+    }
+
+    const accountSection = html`
+      <div class="${containerClass}">
+        <div class="image-container">
+          <img src="/assets/account-image.jpg" alt="Fondo" />
+        </div>
+        <div class="content">
+          <div class="header">
+            <h2>Cuenta ${this.account.alias}</h2>
+          </div>
+          <div class="details">
+            <p><strong>ID:</strong> ${this.account.id}</p>
+            <p><strong>Alias:</strong> ${this.account.alias}</p>
+            <p>
+              <strong>IBAN:</strong>
+              <span
+                >${AccountDetail._formatIBAN(this.account.number.iban)}</span
+              >
+            </p>
+            <p>
+              <strong>Saldo:</strong>
+              <span class="${this.account.amount.currency}">
+                ${this.account.amount.amount}
+              </span>
+            </p>
+            <p><strong>Nivel:</strong> ${this.account.level.description}</p>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const sortedTransactions = this._sortByDate();
+    const groupedTransactions =
+      AccountDetail._groupTransactions(sortedTransactions);
+
+    const allGroupedTransactions = [];
+    for (const [group, transactions] of Object.entries(groupedTransactions)) {
+      for (const transaction of transactions) {
+        allGroupedTransactions.push({
+          ...transaction,
+          group,
+        });
+      }
+    }
+
+    const pagedTransactions = this._getPagedTransactions(
+      allGroupedTransactions,
+    );
+
+    const transactionsSection = html`
+      <div class="${containerClass}">
+        <div class="content">
+          <div class="header-transactions">
+            <h3>Transacciones</h3>
+          </div>
+
+          ${pagedTransactions.map(
+            (transaction, index, array) => html`
+              ${index === 0 || transaction.group !== array[index - 1].group
+                ? html`<h4 style="margin-left:25px; margin-bottom: 5px;">
+                    ${transaction.group}
+                  </h4>`
+                : ''}
+              <div class="transactions" key=${transaction.id}>
+                <p class="date">${transaction.date}</p>
+                <p class="description">${transaction.description}</p>
+                <p
+                  class="amount ${`${transaction.amount.currency} ${
+                    Number(transaction.amount?.amount) <= 0 ? 'negative' : ''
+                  }`}"
+                >
+                  ${transaction.amount ? transaction.amount.amount : ''}
+                </p>
+              </div>
+            `,
+          )}
+
+          <div class="pagination-controls">
+            <button
+              class="nav prev"
+              @click=${this._prevPage}
+              ?disabled=${this.currentPage <= 1}
+            >
+              🡨
+            </button>
+            <button
+              class="nav next"
+              @click=${this._nextPage}
+              ?disabled=${this.currentPage >=
+              Math.ceil(allGroupedTransactions.length / this.pageSize)}
+            >
+              🡪
+            </button>
+
+            <select
+              id="pageSizeDropdown"
+              @change=${this._onPageSizeChange}
+              .value=${String(this.pageSize)}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    `;
+
+    return html`<div class="big-container">
+      ${accountSection} ${transactionsSection}
+    </div>`;
+  }
+}
+customElements.define('bk-account-detail', AccountDetail);
