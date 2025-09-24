@@ -7,13 +7,13 @@ export class AccountDetail extends LitElement {
   static properties = {
     accountId: { type: Number },
     account: { type: Object },
+    transactions: { type: Object },
     error: { type: String },
   };
 
   static styles = css`
     #back-button {
       font-family: 'Sansation', sans-serif;
-      margin-top: 25px;
       border-radius: 20px;
       border: 1px solid var(--primary-color);
       color: var(--primary-color);
@@ -37,11 +37,16 @@ export class AccountDetail extends LitElement {
 
   async _loadAccount() {
     this.account = null;
+    this.transactions = null;
     this.error = null;
     try {
       const acc = await AccountService.getAccount(this.accountId);
+      const transactions = await AccountService.getAccountTransactions(
+        this.accountId,
+      );
       if (acc) {
         this.account = acc;
+        this.transactions = transactions;
       } else {
         this.error =
           'No se pudo encontrar la cuenta solicitada. Por favor, inténtelo de nuevo.';
@@ -59,6 +64,7 @@ export class AccountDetail extends LitElement {
     return html`
       <bk-account-detail
         .account=${this.account}
+        .transactions=${this.transactions}
         .error=${this.error}
       ></bk-account-detail>
       <button id="back-button" @click=${AccountDetail.goBack}>

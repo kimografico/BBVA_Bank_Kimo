@@ -152,6 +152,9 @@ const styles = css`
           padding-bottom: 15px;
           align-items: flex-start;
         }
+        .amount {
+          margin-top: -10px;
+        }
       }
     }
 

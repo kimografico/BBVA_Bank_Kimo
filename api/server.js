@@ -16,14 +16,18 @@ const server = jsonServer.create();
 const router = jsonServer.router(path.join(__dirname, 'db.json'));
 const middlewares = jsonServer.defaults();
 
-// log requests (optional)
-// server.use((req, res, next) => {
-//   console.log(req.method, req.url);
-//   next();
-// });
-
-// usar middlewares estándar (logger, static, cors, no-cache)
 server.use(middlewares);
+
+// lista de cuentas SIN transactions
+server.get('/api/accounts', (req, res) => {
+  const { db } = router;
+  const accounts = db.get('accounts').value() || [];
+  const accountsNoTx = accounts.map(acc => {
+    const { transactions, ...rest } = acc;
+    return rest;
+  });
+  return res.json(accountsNoTx);
+});
 
 // custom endpoint para transactions (maneja string/number ids)
 server.get('/api/accounts/:id/transactions', (req, res) => {
@@ -42,7 +46,23 @@ server.get('/api/accounts/:id/transactions', (req, res) => {
   return res.json(transactions);
 });
 
-// monta el router bajo /api (asi /api/accounts y /api/accounts/:id funcionan automáticamente)
+// custom endpoint para devolver la cuenta SIN transactions
+server.get('/api/accounts/:id', (req, res) => {
+  const { id } = req.params;
+  const { db } = router;
+  const accounts = db.get('accounts').value() || [];
+  const account = accounts.find(a => String(a.id) === String(id));
+
+  if (!account) {
+    return res.status(404).json({ error: 'Account not found' });
+  }
+
+  // crear copia sin transactions
+  const { transactions, ...accountNoTx } = account;
+  return res.json(accountNoTx);
+});
+
+// monta el router bajo /api (asi /api/accounts y otros recursos siguen funcionando)
 server.use('/api', router);
 
 const PORT = process.env.PORT || 3001;
