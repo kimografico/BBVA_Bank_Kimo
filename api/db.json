@@ -42,8 +42,8 @@
       "id": "4",
       "alias": "Ahorros 1",
       "number": { "iban": "ES6612340000001111222233" },
-      "amount": { "amount": 5200.0, "currency": "EUR" },
-      "level": { "level": 2, "description": "National Account" },
+      "amount": { "amount": 5200.0, "currency": "USD" },
+      "level": { "level": 2, "description": "International Account" },
       "transactions": [
         { "id": "4-t1", "description": "Traspaso desde nómina", "amount": { "amount": 500.0, "currency": "EUR" }, "date": "2024/04/01" },
         { "id": "4-t2", "description": "Intereses", "amount": { "amount": 3.2, "currency": "EUR" }, "date": "2024/07/01" },
@@ -67,7 +67,7 @@
       "id": "6",
       "alias": "Empresa X",
       "number": { "iban": "ES8800112233445566778899" },
-      "amount": { "amount": 15000.0, "currency": "EUR" },
+      "amount": { "amount": 15000.0, "currency": "USD" },
       "level": { "level": 3, "description": "Business Account" },
       "transactions": [
         { "id": "6-t1", "description": "Factura cliente A", "amount": { "amount": 5000.0, "currency": "EUR" }, "date": "2024/02/28" },
@@ -78,10 +78,10 @@
     },
     {
       "id": "7",
-      "alias": "Tarjeta 1",
+      "alias": "Tarjeta Black",
       "number": { "iban": "ES9900990099009900990099" },
-      "amount": { "amount": 60.5, "currency": "EUR" },
-      "level": { "level": 1, "description": "National Account" },
+      "amount": { "amount": 60.5, "currency": "USD" },
+      "level": { "level": 1, "description": "You have seen nothing Account" },
       "transactions": [
         { "id": "7-t1", "description": "Pago restaurante", "amount": { "amount": -35.5, "currency": "EUR" }, "date": "2024/08/05" },
         { "id": "7-t2", "description": "Compra app", "amount": { "amount": -2.99, "currency": "EUR" }, "date": "2024/08/06" },
@@ -92,7 +92,7 @@
       "id": "8",
       "alias": "Inversiones",
       "number": { "iban": "ES1200120012001200120012" },
-      "amount": { "amount": 32000.0, "currency": "EUR" },
+      "amount": { "amount": 32000.0, "currency": "USD" },
       "level": { "level": 3, "description": "Investment Account" },
       "transactions": [
         { "id": "8-t1", "description": "Dividendo", "amount": { "amount": 250.0, "currency": "EUR" }, "date": "2024/06/30" },
