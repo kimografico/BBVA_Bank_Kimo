@@ -34,6 +34,28 @@ const styles = css`
     background-repeat: no-repeat;
   }
 
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+  }
+
+  .dropdown {
+    margin-top: -5px;
+  }
+  select,
+  ::picker(select) {
+    appearance: base-select;
+    border: 2px solid var(--primary-color);
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    margin: 10px;
+  }
+
   table {
     border-spacing: 0px;
     background-color: rgba(var(--primary-color-rgb), 0.05);
@@ -158,8 +180,16 @@ const styles = css`
       }
     }
 
+    .header {
+      gap: 5px;
+    }
+
+    h2::after {
+      background-image: none;
+    }
+
     h2 {
-      font-size: 2rem;
+      font-size: 1.75rem;
     }
   }
 `;

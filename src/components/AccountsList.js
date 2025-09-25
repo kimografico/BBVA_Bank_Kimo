@@ -9,11 +9,15 @@ export class AccountsList extends LitElement {
 
   static properties = {
     accounts: { type: Array },
+    filteredAccounts: { type: Array },
+    listedAccountsType: { type: String },
   };
 
   constructor() {
     super();
     this.accounts = AccountService.getAccounts();
+    this.listedAccountsType = 'all';
+    this.filteredAccounts = this.accounts;
   }
 
   openEditModal(id, alias) {
@@ -39,16 +43,38 @@ export class AccountsList extends LitElement {
     this.accounts = [...AccountService.getAccounts()]; // Para que se detecte y renderice el cambio hay que crear una copia de la lista
   }
 
+  _onAccountTypeChange(event) {
+    const { value } = event.target;
+    this.listedAccountsType = value;
+    const filteredAccounts = this.accounts.filter(
+      account =>
+        account.amount.currency === value.toUpperCase() || value === 'all',
+    );
+    this.filteredAccounts = filteredAccounts;
+  }
+
   render() {
-    if (!this.accounts || this.accounts.length === 0) {
+    if (!this.filteredAccounts || this.filteredAccounts.length === 0) {
       return html`<p class="error">No hay cuentas</p>`;
     }
 
     return html`
       <div class="container">
-        <h2>Cuentas</h2>
+        <div class="header">
+          <h2>Cuentas</h2>
+          <select
+            class="dropdown"
+            id="pageSizeDropdown"
+            @change=${this._onAccountTypeChange}
+            .value=${String(this.listedAccountsType)}
+          >
+            <option value="all">Todas</option>
+            <option value="eur">Nacionales</option>
+            <option value="usd">Internacionales</option>
+          </select>
+        </div>
         <table>
-          ${this.accounts.map(
+          ${this.filteredAccounts.map(
             account => html`
               <tr @click=${() => Router.go(`/accounts/${account.id}`)}>
                 <td>
