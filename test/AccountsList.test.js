@@ -190,4 +190,60 @@ describe('AccountsList', () => {
       expect(row.textContent).to.include(account.amount.amount.toString());
     });
   });
+
+  it('should filter accounts when _onAccountTypeChange is called', async () => {
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
+
+    const updateFilteredAccountsSpy = Sinon.spy(
+      component,
+      '_updateFilteredAccounts',
+    );
+
+    const mockEvent = {
+      target: {
+        value: 'national',
+      },
+    };
+
+    component._onAccountTypeChange(mockEvent);
+
+    expect(component.listedAccountsType).to.equal('national');
+    expect(updateFilteredAccountsSpy.calledOnce).to.be.true;
+
+    updateFilteredAccountsSpy.restore();
+  });
+
+  it('should update listedAccountsType to international', async () => {
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
+
+    const mockEvent = {
+      target: {
+        value: 'international',
+      },
+    };
+
+    component._onAccountTypeChange(mockEvent);
+
+    expect(component.listedAccountsType).to.equal('international');
+  });
+
+  it('should update listedAccountsType to all accounts', async () => {
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
+
+    const mockEvent = {
+      target: {
+        value: 'all',
+      },
+    };
+
+    component._onAccountTypeChange(mockEvent);
+
+    expect(component.listedAccountsType).to.equal('all');
+  });
 });

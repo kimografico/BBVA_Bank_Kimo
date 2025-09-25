@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js src/ test/",
     "format": "prettier --write 'src/**/*.js' 'test/**/*.js'",
     "prepare": "husky",
-    "test": "web-test-runner --coverage",
+    "test": "cls && web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",
     "build": "rimraf dist && rollup -c rollup.config.js && npm run analyze -- --exclude dist",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",

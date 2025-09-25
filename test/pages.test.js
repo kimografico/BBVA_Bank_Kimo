@@ -35,6 +35,12 @@ describe('test pages', () => {
 describe('account-detail-page', () => {
   afterEach(() => {
     if (AccountService.getAccount.restore) AccountService.getAccount.restore();
+    if (
+      AccountService.getAccountTransactions &&
+      AccountService.getAccountTransactions.restore
+    ) {
+      AccountService.getAccountTransactions.restore();
+    }
   });
 
   it('should load account and pass it to child', async () => {
@@ -123,5 +129,38 @@ describe('account-detail-page', () => {
     );
 
     AccountService.getAccount.restore();
+  });
+
+  it('should show error when transaction loading fails', async () => {
+    const mockAccount = {
+      id: '2',
+      alias: 'Cuenta de ejemplo',
+      number: { iban: 'ES9121000418450200051332' },
+      amount: { amount: 1000, currency: 'EUR' },
+      level: { level: 1, description: 'Nivel básico' },
+    };
+
+    Sinon.stub(AccountService, 'getAccount').resolves(mockAccount);
+    Sinon.stub(AccountService, 'getAccountTransactions').rejects(
+      new Error('Transaction error'),
+    );
+
+    const page = await fixture(
+      html`<account-detail-page></account-detail-page>`,
+    );
+
+    await page.onBeforeEnter({ params: { id: '2' } });
+    await page.updateComplete;
+    await new Promise(resolve => {
+      setTimeout(resolve, 0);
+    });
+
+    const child = page.shadowRoot.querySelector('bk-account-detail');
+    expect(child).to.exist;
+    expect(child.transactions).to.deep.equal([]);
+    expect(child.error).to.equal('No se pudieron cargar las transacciones.');
+
+    AccountService.getAccount.restore();
+    AccountService.getAccountTransactions.restore();
   });
 });

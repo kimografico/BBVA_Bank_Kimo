@@ -48,4 +48,129 @@ describe('bk-account-detail (presentational)', () => {
     expect(container.textContent).to.include('1000');
     expect(container.textContent).to.include('Nivel básico');
   });
+
+  describe('Pagination methods', () => {
+    let component;
+    const mockAccount = {
+      id: '2',
+      alias: 'Cuenta de ejemplo',
+      number: { iban: 'ES9121000418450200051332' },
+      amount: { amount: 1000, currency: 'EUR' },
+      level: { level: 1, description: 'Nivel básico' },
+    };
+
+    const mockTransactions = Array.from({ length: 12 }, (_, i) => ({
+      id: `t${i + 1}`,
+      description: `Transaction ${i + 1}`,
+      amount: { amount: 100, currency: 'EUR' },
+      date: '2024-01-01',
+    }));
+
+    beforeEach(async () => {
+      component = await fixture(html`<bk-account-detail></bk-account-detail>`);
+      component.account = mockAccount;
+      component.transactions = mockTransactions;
+      await component.updateComplete;
+    });
+
+    describe('_prevPage', () => {
+      it('should decrease currentPage when currentPage > 1', () => {
+        component.currentPage = 3;
+        component._prevPage();
+        expect(component.currentPage).to.equal(2);
+      });
+
+      it('should not change currentPage when currentPage is 1', () => {
+        component.currentPage = 1;
+        component._prevPage();
+        expect(component.currentPage).to.equal(1);
+      });
+    });
+
+    describe('_nextPage', () => {
+      it('should increase currentPage when not on last page', () => {
+        component.currentPage = 1;
+        component.pageSize = 5;
+        component._nextPage();
+        expect(component.currentPage).to.equal(2);
+      });
+
+      it('should not change currentPage when on last page', () => {
+        component.currentPage = 3;
+        component.pageSize = 5;
+        component._nextPage();
+        expect(component.currentPage).to.equal(3);
+      });
+
+      it('should handle empty transactions array', () => {
+        component.transactions = [];
+        component.currentPage = 1;
+        component._nextPage();
+        expect(component.currentPage).to.equal(1);
+      });
+
+      it('should handle null transactions', () => {
+        component.transactions = null;
+        component.currentPage = 1;
+        component._nextPage();
+        expect(component.currentPage).to.equal(1);
+      });
+    });
+
+    describe('_onPageSizeChange', () => {
+      it('should update pageSize and reset currentPage to 1', () => {
+        component.currentPage = 3;
+        component.pageSize = 5;
+
+        const mockEvent = {
+          target: { value: '10' },
+        };
+
+        component._onPageSizeChange(mockEvent);
+
+        expect(component.pageSize).to.equal(10);
+        expect(component.currentPage).to.equal(1);
+      });
+
+      it('should handle string numbers correctly', () => {
+        const mockEvent = {
+          target: { value: '25' },
+        };
+
+        component._onPageSizeChange(mockEvent);
+
+        expect(component.pageSize).to.equal(25);
+        expect(component.currentPage).to.equal(1);
+      });
+
+      it('should not update pageSize with invalid values', () => {
+        const originalPageSize = component.pageSize;
+        const originalCurrentPage = component.currentPage;
+
+        const mockEvent = {
+          target: { value: 'invalid' },
+        };
+
+        component._onPageSizeChange(mockEvent);
+
+        expect(component.pageSize).to.equal(originalPageSize);
+        expect(component.currentPage).to.equal(originalCurrentPage);
+      });
+
+      it('should not update pageSize with zero or negative values', () => {
+        const originalPageSize = component.pageSize;
+
+        const mockEvent = {
+          target: { value: '0' },
+        };
+
+        component._onPageSizeChange(mockEvent);
+        expect(component.pageSize).to.equal(originalPageSize);
+
+        mockEvent.target.value = '-5';
+        component._onPageSizeChange(mockEvent);
+        expect(component.pageSize).to.equal(originalPageSize);
+      });
+    });
+  });
 });
