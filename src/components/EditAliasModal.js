@@ -28,7 +28,8 @@ export class EditAliasModal extends LitElement {
     this.editingAlias = event.target.value;
   }
 
-  _save() {
+  _save(event) {
+    event.preventDefault();
     this.dispatchEvent(
       new CustomEvent('save-alias', {
         detail: { id: this.editingId, alias: this.editingAlias },
