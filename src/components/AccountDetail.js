@@ -137,33 +137,37 @@ export class AccountDetail extends LitElement {
                 </div>
               `,
             )}
-            <div class="pagination-controls">
-              <button
-                class="nav prev"
-                @click=${this._prevPage}
-                ?disabled=${this.currentPage <= 1}
-              >
-                🡨
-              </button>
-              <button
-                class="nav next"
-                @click=${this._nextPage}
-                ?disabled=${this.currentPage >= totalPages}
-              >
-                🡪
-              </button>
+            ${this.transactions.length > 5
+              ? html`
+                  <div class="pagination-controls">
+                    <button
+                      class="nav prev"
+                      @click=${this._prevPage}
+                      ?disabled=${this.currentPage <= 1}
+                    >
+                      🡨
+                    </button>
+                    <button
+                      class="nav next"
+                      @click=${this._nextPage}
+                      ?disabled=${this.currentPage >= totalPages}
+                    >
+                      🡪
+                    </button>
 
-              <select
-                id="pageSizeDropdown"
-                @change=${this._onPageSizeChange}
-                .value=${String(this.pageSize)}
-              >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-              </select>
-            </div>
+                    <select
+                      id="pageSizeDropdown"
+                      @change=${this._onPageSizeChange}
+                      .value=${String(this.pageSize)}
+                    >
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                    </select>
+                  </div>
+                `
+              : ''}
           </div>
         </div>
       `;
