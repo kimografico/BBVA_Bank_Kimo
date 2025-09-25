@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import { Router } from '@vaadin/router';
 import styles from '../styles/AccountsList-styles.js';
 import './EditAliasModal.js';
+import './toast.js';
 import { AccountService } from '../services/AccountService.js';
 
 export class AccountsList extends LitElement {
@@ -31,31 +32,44 @@ export class AccountsList extends LitElement {
   _handleSaveAlias(event) {
     const { id, alias } = event.detail; // DESESTRUCTURACIÓN: const id = event.detail.id; const alias = event.detail.alias;
 
-    const errorContainer = this.shadowRoot.getElementById('error');
+    const toast = this.shadowRoot.querySelector('bk-toast');
     const message = AccountService.updateAccountAlias(id, alias);
+
+    // Usar el toast en lugar del contenedor de error
     if (message.includes('éxito')) {
-      errorContainer.style.color = 'var(--primary-color)';
+      toast.showSuccess(message);
     } else {
-      errorContainer.style.color = 'red';
+      toast.showError(message);
     }
-    errorContainer.innerText = message;
 
     this.accounts = [...AccountService.getAccounts()]; // Para que se detecte y renderice el cambio hay que crear una copia de la lista
+
+    // Actualizar filteredAccounts para reflejar los cambios
+    this._updateFilteredAccounts();
   }
 
   _onAccountTypeChange(event) {
     const { value } = event.target;
     this.listedAccountsType = value;
+    this._updateFilteredAccounts();
+  }
+
+  // Método auxiliar para actualizar las cuentas filtradas
+  _updateFilteredAccounts() {
     const filteredAccounts = this.accounts.filter(
       account =>
-        account.amount.currency === value.toUpperCase() || value === 'all',
+        account.amount.currency === this.listedAccountsType.toUpperCase() ||
+        this.listedAccountsType === 'all',
     );
     this.filteredAccounts = filteredAccounts;
   }
 
   render() {
     if (!this.filteredAccounts || this.filteredAccounts.length === 0) {
-      return html`<p class="error">No hay cuentas</p>`;
+      return html`
+        <p class="error">No hay cuentas</p>
+        <bk-toast></bk-toast>
+      `;
     }
 
     return html`
@@ -108,7 +122,7 @@ export class AccountsList extends LitElement {
         .alias=${this.editingAlias}
         @save-alias=${this._handleSaveAlias}
       ></bk-edit-alias-modal>
-      <p id="error"></p>
+      <bk-toast></bk-toast>
     `;
   }
 }
