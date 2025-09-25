@@ -16,9 +16,17 @@ export class AccountsList extends LitElement {
 
   constructor() {
     super();
-    this.accounts = AccountService.getAccounts();
+    this.accounts = [];
     this.listedAccountsType = 'all';
-    this.filteredAccounts = this.accounts;
+    this.filteredAccounts = [];
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    if (this.accounts.length === 0) {
+      this.accounts = AccountService.getAccounts();
+      this.filteredAccounts = this.accounts;
+    }
   }
 
   openEditModal(id, alias) {
@@ -62,6 +70,14 @@ export class AccountsList extends LitElement {
         this.listedAccountsType === 'all',
     );
     this.filteredAccounts = filteredAccounts;
+  }
+
+  willUpdate(changedProperties) {
+    super.willUpdate(changedProperties);
+    // Si la propiedad accounts cambió, actualizar filteredAccounts
+    if (changedProperties.has('accounts')) {
+      this._updateFilteredAccounts();
+    }
   }
 
   render() {

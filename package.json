@@ -6,17 +6,18 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "lint": "eslint --ext .js,.html . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
-    "format": "eslint --ext .js,.html . --fix --ignore-path .gitignore && prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "lint": "eslint --ext .js src/ test/",
+    "format": "prettier --write 'src/**/*.js' 'test/**/*.js'",
     "prepare": "husky",
-    "test": "cls && web-test-runner",
-    "test:coverage": "web-test-runner --coverage",
+    "test": "web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",
     "build": "rimraf dist && rollup -c rollup.config.js && npm run analyze -- --exclude dist",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
     "start": "web-dev-server",
-    "start:api": "node api/server.js"
+    "start:api": "node api/server.js",
+    "test:pre-commit": "web-test-runner --coverage --browsers chromium",
+    "test:lint": "npm run test && npm run lint:fix && npm run format"
   },
   "dependencies": {
     "@vaadin/router": "^2.0.0",

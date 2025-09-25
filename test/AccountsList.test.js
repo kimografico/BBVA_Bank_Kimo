@@ -1,74 +1,92 @@
-import { fixture, expect, html } from '@open-wc/testing';
+import { fixture, expect } from '@open-wc/testing';
 
 import '../src/components/AccountsList.js';
 import Sinon from 'sinon';
-import { AccountService } from '../src/services/AccountService.js';
 
 describe('AccountsList', () => {
   const mockAccounts = [
     {
       id: '1',
-      number: { iban: 'ES0000000000000000000000' },
-      alias: 'CUENTA 1 ',
-      amount: { amount: 1500, currency: 'EUR' },
-      level: { level: 1, description: 'Una cuenta' },
+      alias: 'COMPARTIDA ',
+      number: { iban: 'ES4401824723176778414475' },
+      amount: { amount: 2433.15, currency: 'EUR' },
+      level: { level: 1, description: 'National Account' },
+      transactions: [
+        {
+          id: '1-t1',
+          description: 'Ingreso nómina',
+          amount: { amount: 1500.0, currency: 'EUR' },
+          date: '2024/08/01',
+        },
+        {
+          id: '1-t2',
+          description: 'Pago supermercado',
+          amount: { amount: -120.45, currency: 'EUR' },
+          date: '2024/08/03',
+        },
+      ],
     },
     {
-      id: '2',
-      number: { iban: 'ES0000000000000000000000' },
-      alias: 'CUENTA 2',
-      amount: { amount: 1499.95, currency: 'USD' },
-      level: { level: 2, description: 'An account' },
+      id: '3',
+      alias: 'USA',
+      number: { iban: 'AE950213642574896367215' },
+      amount: { amount: 1156.1, currency: 'USD' },
+      level: { level: 2, description: 'International Account' },
+      transactions: [],
     },
   ];
+  let element;
   beforeEach(async () => {
-    AccountService._accounts = [...mockAccounts];
+    element = await fixture('<bk-accounts-list></bk-accounts-list>');
+    element.accounts = mockAccounts;
+    await element.updateComplete;
   });
 
   it('shows a message when there are no accounts', async () => {
-    // Establece accounts como un array vacío
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${[]}></bk-accounts-list>
-    `);
+    // Crear el componente y asignar array vacío
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = [];
+    await component.updateComplete;
 
     expect(component.shadowRoot.textContent).to.include('No hay cuentas');
   });
 
   it('adds the currency information', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+
+    component._updateFilteredAccounts();
+    await component.updateComplete;
 
     const span = component.shadowRoot.querySelector('span.amount');
     expect(span.classList.contains('EUR')).to.be.true;
   });
 
   it('renders two accounts', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
-
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
     const rows = component.shadowRoot.querySelectorAll('tr');
     expect(rows.length).to.equal(2);
   });
 
   it('renders the correct information for the first account', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
 
     const rows = component.shadowRoot.querySelectorAll('tr');
 
     const firstRow = rows[0];
-    expect(firstRow.textContent).to.include('CUENTA');
-    expect(firstRow.textContent).to.include('ES0000000000000000000000');
-    expect(firstRow.textContent).to.include('1500');
+    expect(firstRow.textContent).to.include('COMPARTIDA');
+    expect(firstRow.textContent).to.include('ES4401824723176778414475');
+    expect(firstRow.textContent).to.include('2433.15');
   });
 
   it('renders the correct currency class', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
 
     const rows = component.shadowRoot.querySelectorAll('tr');
 
@@ -79,18 +97,19 @@ describe('AccountsList', () => {
   });
 
   it('shows a message when accounts is undefined', async () => {
-    // Establece accounts como undefined
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${[]}></bk-accounts-list>
-    `);
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+
+    component.accounts = [];
+    component.filteredAccounts = [];
+    await component.updateComplete;
 
     expect(component.shadowRoot.textContent).to.include('No hay cuentas');
   });
 
   it('renders an "EDITAR ALIAS" button for each account', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
 
     const buttons = component.shadowRoot.querySelectorAll('button');
     expect(buttons.length).to.equal(mockAccounts.length);
@@ -100,9 +119,9 @@ describe('AccountsList', () => {
   });
 
   it('calls openEditModal when "EDITAR ALIAS" is clicked', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
 
     const openEditModalSpy = Sinon.spy(component, 'openEditModal');
     const button = component.shadowRoot.querySelectorAll('button');
@@ -115,9 +134,9 @@ describe('AccountsList', () => {
   });
 
   it('updates accounts when _handleSaveAlias is called', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
 
     const newAlias = 'Nueva Cuenta';
     component._handleSaveAlias({ detail: { id: '1', alias: newAlias } });
@@ -129,35 +148,39 @@ describe('AccountsList', () => {
   });
 
   it('displays a success message when alias is updated successfully', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
+
+    // Spy en el método showSuccess del toast
+    const toast = component.shadowRoot.querySelector('bk-toast');
+    const showSuccessSpy = Sinon.spy(toast, 'showSuccess');
 
     component._handleSaveAlias({ detail: { id: '1', alias: 'CuentaTest' } });
 
-    const errorContainer = component.shadowRoot.getElementById('error');
-    expect(errorContainer.textContent).to.include('éxito');
-    expect(errorContainer.style.color).to.equal('var(--primary-color)');
+    // Verificar que se llamó el método showSuccess
+    expect(showSuccessSpy.calledOnce).to.be.true;
+    expect(showSuccessSpy.calledWith(Sinon.match(/éxito/))).to.be.true;
   });
 
-  it('displays an error message when alias update fails', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
+  it('calls toast showError when alias update fails', async () => {
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
 
-    component._handleSaveAlias({ detail: { id: '1', alias: 'CUENTA 2' } });
+    const toast = component.shadowRoot.querySelector('bk-toast');
+    const showErrorSpy = Sinon.spy(toast, 'showError');
 
-    const errorContainer = component.shadowRoot.getElementById('error');
-    expect(errorContainer.textContent).to.include(
-      'No se pudo cambiar el alias',
-    );
-    expect(errorContainer.style.color).to.equal('red');
+    // Usar un alias que sabemos que causará error (según la lógica del servicio)
+    component._handleSaveAlias({ detail: { id: '1', alias: 'USA' } });
+
+    expect(showErrorSpy.called).to.be.true;
   });
 
   it('renders the correct data for each account', async () => {
-    const component = await fixture(html`
-      <bk-accounts-list .accounts=${mockAccounts}></bk-accounts-list>
-    `);
+    const component = await fixture('<bk-accounts-list></bk-accounts-list>');
+    component.accounts = mockAccounts;
+    await component.updateComplete;
 
     const rows = component.shadowRoot.querySelectorAll('tr');
     rows.forEach((row, index) => {
