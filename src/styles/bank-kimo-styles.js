@@ -11,7 +11,6 @@ const styles = css`
     margin: 0 auto;
     text-align: center;
     overflow-x: hidden;
-    padding-top: 100px;
     box-sizing: border-box;
   }
 
@@ -27,15 +26,9 @@ const styles = css`
   }
 
   bk-header {
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 10;
-  }
-
-  @media (max-width: 640px) {
-    :host {
-      padding-top: 180px;
-    }
   }
 `;
 

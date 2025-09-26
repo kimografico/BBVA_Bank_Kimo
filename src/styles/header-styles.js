@@ -5,7 +5,6 @@ const styles = css`
     font-family: 'Source Serif 4', serif;
     font-weight: 700;
     font-size: 1.75rem;
-    /* background-color: var(--primary-color); */
     background: linear-gradient(
       90deg,
       var(--primary-color) 0%,
@@ -34,9 +33,13 @@ const styles = css`
       font-size: 3rem;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
     }
 
     ul {
@@ -49,12 +52,16 @@ const styles = css`
       justify-self: flex-end;
 
       li {
-        color: var(--text-color-light);
         transition: 0.5s;
-        &:hover {
+
+        a {
+          color: var(--text-color-light);
+          text-decoration: none;
+          transition: color 0.25s;
+        }
+
+        a:hover {
           color: white;
-          cursor: pointer;
-          transition: 0.25s;
         }
       }
     }
@@ -68,18 +75,57 @@ const styles = css`
     header {
       text-align: center;
       display: flex;
+
       div {
-        flex-direction: column;
-        ul {
-          margin: 10px;
-          font-size: 1.75rem;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        h1 {
+          font-size: 2.5rem;
         }
-      }
-      h1 {
-        padding: 0;
-        font-size: 4rem;
+
+        .menu-toggle {
+          display: block;
+        }
+
+        ul {
+          position: absolute;
+          top: calc(100% - 25px);
+          left: 0;
+          width: 100%;
+          margin: 0;
+          background: white;
+          color: black;
+          border-bottom: 4px solid var(--primary-color);
+          padding: 10px 0;
+          display: none;
+          flex-direction: column;
+          font-size: 1.75rem;
+          font-weight: 600;
+        }
+
+        ul.open {
+          display: flex;
+        }
+
+        li {
+          margin: 10px;
+          a {
+            color: var(--primary-color-dark);
+          }
+
+          a:hover {
+            color: var(--primary-color);
+          }
+        }
+
+        .disabled {
+          display: none;
+        }
       }
     }
   }
 `;
+
 export default styles;
