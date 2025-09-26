@@ -1,0 +1,136 @@
+{
+  "header": {
+    "title": "KimoBank",
+    "menu": {
+      "home": "Home",
+      "accounts": "Accounts",
+      "secrets": "Secrets",
+      "profile": "Profile"
+    }
+  },
+  "ui": {
+    "back-button": "Back",
+    "back-to-list-button": "Back to the list",
+    "cancel": "Cancel",
+    "accept": "Accept",
+    "save": "Save",
+    "edit": "Edit",
+    "save-changes": "Save Changes",
+    "error-form": "There are some form errors",
+    "error-update": "Error updating data",
+    "no-changes": "No changes have been made",
+    "success-update": "Profile updated successfully",
+    "loading": "Loading",
+    "alt": {
+      "background": "Decorative background"
+    },
+    "toast": {
+      "success": "Operation completed successfully.",
+      "error": "An error occurred.",
+      "info": "Important information.",
+      "warning": "Warning: please check the data."
+    }
+  },
+  "footer": {
+    "info": "This application is a training project and does not represent a real banking entity"
+  },
+  "page-not-found": {
+    "title": "Page not found",
+    "message": "Sorry, the page you are looking for does not exist."
+  },
+  "account": {
+    "loading-details": "Loading account details...",
+    "header": "Account {{alias}}",
+    "details": {
+      "id": "ID",
+      "alias": "Alias",
+      "iban": "IBAN",
+      "balance": "Balance",
+      "level": "Level"
+    },
+    "transactions": {
+      "header": "Transactions",
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "pagination": {
+        "prev": "Previous",
+        "next": "Next",
+        "page-size": "Items per page"
+      }
+    },
+    "error": {
+      "not-found": "The account was not found.",
+      "loaded": "Transactions could not be loaded.",
+      "generic": "An error occurred while loading account data."
+    }
+  },
+  "user-profile": {
+    "user-data": {
+      "avatar-alt": "Avatar",
+      "name": "Name",
+      "surname": "Surname",
+      "email": "Email",
+      "address": "Address",
+      "phone": "Phone",
+      "edit-profile": "Edit Profile"
+    },
+    "errors": {
+      "name": "The name is not valid.",
+      "surname": "The surname is not valid.",
+      "email": "The email is not valid.",
+      "address": "The address is not valid.",
+      "phone": "The phone number must have 9 digits."
+    },
+    "toast": {
+      "success": "{{name}}'s profile updated successfully",
+      "error": "An error occurred while updating the profile"
+    }
+  },
+  "accounts-list": {
+    "header": "Accounts",
+    "filters": {
+      "all": "All",
+      "national": "National",
+      "international": "International"
+    },
+    "table": {
+      "alias": "Alias",
+      "iban": "IBAN",
+      "amount": "Balance",
+      "edit-alias": "Edit Alias"
+    },
+    "messages": {
+      "no-accounts": "No accounts available.",
+      "success-update": "The alias was updated successfully.",
+      "error-update": "There was an error updating the alias."
+    }
+  },
+  "edit-alias-modal": {
+    "header": "Enter the new Alias",
+    "label": "New alias",
+    "save-button": "Change",
+    "cancel-button": "Cancel"
+  },
+  "services": {
+    "account": {
+      "errors": {
+        "account-not-found": "❌ Error! The account does not exist.",
+        "alias-same": "The alias could not be changed, the new alias is the same as the old one.",
+        "alias-exists": "The alias could not be changed, that alias already exists."
+      },
+      "success": {
+        "alias-updated": "The alias has been successfully updated."
+      }
+    },
+    "validation": {
+      "errors": {
+        "name": "The name must have at least 2 characters.",
+        "surname": "The surname cannot be empty.",
+        "email": "The email address is not valid.",
+        "address": "The address cannot be empty.",
+        "phone": "The phone number must have 9 digits."
+      }
+    }
+  }
+}

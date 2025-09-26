@@ -1,6 +1,7 @@
 import { LitElement, html } from 'lit';
 import styles from '../styles/header-styles.js';
 import { UserService } from '../services/UserService.js';
+import { i18n } from '../services/LanguageService.js';
 
 export class BankHeader extends LitElement {
   static styles = styles;
@@ -34,9 +35,21 @@ export class BankHeader extends LitElement {
           <h1>${this.bankTitle}</h1>
           <button class="menu-toggle" @click="${this.toggleMenu}">☰</button>
           <ul class="${this.isMenuOpen ? 'open' : ''}">
-            <li><a href="/" @click="${this.closeMenu}">Inicio</a></li>
-            <li><a href="/accounts" @click="${this.closeMenu}">Cuentas</a></li>
-            <li><a href="/secretos" @click="${this.closeMenu}">Secretos</a></li>
+            <li>
+              <a href="/" @click="${this.closeMenu}"
+                >${i18n.translate('header.menu.home')}</a
+              >
+            </li>
+            <li>
+              <a href="/accounts" @click="${this.closeMenu}"
+                >${i18n.translate('header.menu.accounts')}</a
+              >
+            </li>
+            <li>
+              <a href="/secretos" @click="${this.closeMenu}"
+                >${i18n.translate('header.menu.secrets')}</a
+              >
+            </li>
             <li class="disabled">|</li>
             <li>
               <a href="/user" @click="${this.closeMenu}">👤 ${this.userName}</a>

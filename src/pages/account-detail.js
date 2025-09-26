@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import '../components/AccountDetail.js';
 import { Router } from '@vaadin/router';
 import { AccountService } from '../services/AccountService.js';
+import { i18n } from '../services/LanguageService.js';
 
 export class AccountDetail extends LitElement {
   static properties = {
@@ -51,14 +52,13 @@ export class AccountDetail extends LitElement {
           this.transactions = transactions;
         } catch (err) {
           this.transactions = [];
-          this.error = 'No se pudieron cargar las transacciones.';
+          this.error = i18n.translate('account.transactions.error.loaded');
         }
       } else {
-        this.error =
-          'No se pudo encontrar la cuenta solicitada. Por favor, inténtelo de nuevo.';
+        this.error = i18n.translate('account.error.not-found');
       }
     } catch (e) {
-      this.error = 'Ocurrió un error al cargar la cuenta.';
+      this.error = i18n.translate('account.error.generic');
     }
   }
 
@@ -74,7 +74,7 @@ export class AccountDetail extends LitElement {
         .error=${this.error}
       ></bk-account-detail>
       <button id="back-button" @click=${AccountDetail.goBack}>
-        Volver a la lista
+        ${i18n.translate('ui.back-to-list-button')}
       </button>
     `;
   }

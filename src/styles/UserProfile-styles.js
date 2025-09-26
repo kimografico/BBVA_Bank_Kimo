@@ -37,7 +37,7 @@ const styles = css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 30px 5px 5px 30px;
+    padding: 30px 25px 5px 30px;
   }
 
   .info h1 {
@@ -62,6 +62,8 @@ const styles = css`
     color: var(--primary-color);
     padding: 5px 10px;
     transition: 0.5s;
+    position: relative;
+    left: 20px;
   }
 
   .info button:hover {

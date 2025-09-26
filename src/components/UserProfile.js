@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import styles from '../styles/UserProfile-styles.js';
 import { UserService } from '../services/UserService.js';
 import { ValidationService } from '../services/ValidationService.js';
+import { i18n } from '../services/LanguageService.js';
 import './toast.js';
 
 export class UserProfile extends LitElement {
@@ -28,6 +29,7 @@ export class UserProfile extends LitElement {
 
   _handleInput(event) {
     const { name, value } = event.target;
+
     this.user = { ...this.user, [name]: value };
     this.errors = {
       ...this.errors,
@@ -70,9 +72,7 @@ export class UserProfile extends LitElement {
   }
 
   _hasErrors() {
-    const errorMsgs = Object.values(this.errors);
-    if (errorMsgs.length === 0) return false;
-    return true;
+    return Object.values(this.errors).some(error => error);
   }
 
   _showToast(type, message) {
@@ -108,26 +108,30 @@ export class UserProfile extends LitElement {
     event.preventDefault();
     this._validateForm();
 
-    // En principio este error nunca deberia salir, ya que está deshabilitado el botón. Pero voy a mantener el método por si acaso
+    if (!this._hasChanges()) {
+      this._showToast('error', i18n.translate('ui.no-changes'));
+      return;
+    }
+
     if (this._hasErrors()) {
-      this._showToast('error', 'Errores en el formulario');
+      this._showToast('error', i18n.translate('ui.error-form'));
       return;
     }
 
     if (!this._sendToService()) {
-      this._showToast('error', 'Error al escribir datos');
-      return;
-    }
-
-    if (!this._hasChanges()) {
-      this._showToast('error', 'No se han realizado cambios');
+      this._showToast('error', i18n.translate('ui.error-update'));
       return;
     }
 
     this._showToast(
       'success',
-      `Perfil de ${this.user.name} actualizado con éxito`,
+      i18n
+        .translate('user-profile.toast.success')
+        .replace('{{name}}', this.user.name),
     );
+
+    // Actualiza originalUser con los datos actuales después de un éxito
+    this.originalUser = { ...this.user };
 
     this._ChangeCards();
   }
@@ -150,21 +154,35 @@ export class UserProfile extends LitElement {
     return html`
       <div class="user-card">
         <div class="avatar-container">
-          <img src="${this.user.avatar}" alt="Avatar de ${this.user.name}" />
+          <img
+            src="${this.user.avatar}"
+            alt="${i18n.translate('user-profile.user-data.avatar-alt')}"
+          />
         </div>
         <div class="info">
           <h1>${this.user.name} ${this.user.surname}</h1>
-          <p><b>Email:</b> ${this.user.email}</p>
-          <p><b>Dirección:</b> ${this.user.address}</p>
-          <p><b>Teléfono:</b> ${this.user.phone}</p>
-          <button @click=${this._handleEdit}>Editar info</button>
+          <p>
+            <b>${i18n.translate('user-profile.user-data.email')}:</b> ${this
+              .user.email}
+          </p>
+          <p>
+            <b>${i18n.translate('user-profile.user-data.address')}:</b> ${this
+              .user.address}
+          </p>
+          <p>
+            <b>${i18n.translate('user-profile.user-data.phone')}:</b> ${this
+              .user.phone}
+          </p>
+          <button @click=${this._handleEdit}>
+            ${i18n.translate('ui.edit')}
+          </button>
         </div>
       </div>
       <div class="user-form">
         <form @submit=${this._handleSubmit}>
-          <h1>Editar Perfil</h1>
+          <h1>${i18n.translate('user-profile.user-data.edit-profile')}</h1>
           <label>
-            <span>Nombre:</span>
+            <span>${i18n.translate('user-profile.user-data.name')}:</span>
             <input
               type="text"
               name="name"
@@ -173,11 +191,13 @@ export class UserProfile extends LitElement {
               required
             />
             ${this.errors.name
-              ? html`<span class="error">${this.errors.name}</span>`
+              ? html`<span class="error"
+                  >${i18n.translate('user-profile.errors.name')}</span
+                >`
               : ''}
           </label>
           <label>
-            <span>Apellidos:</span>
+            <span>${i18n.translate('user-profile.user-data.surname')}:</span>
             <input
               type="text"
               name="surname"
@@ -186,11 +206,13 @@ export class UserProfile extends LitElement {
               required
             />
             ${this.errors.surname
-              ? html`<span class="error">${this.errors.surname}</span>`
+              ? html`<span class="error"
+                  >${i18n.translate('user-profile.errors.surname')}</span
+                >`
               : ''}
           </label>
           <label>
-            <span>Email:</span>
+            <span>${i18n.translate('user-profile.user-data.email')}:</span>
             <input
               type="email"
               name="email"
@@ -199,11 +221,13 @@ export class UserProfile extends LitElement {
               required
             />
             ${this.errors.email
-              ? html`<span class="error">${this.errors.email}</span>`
+              ? html`<span class="error"
+                  >${i18n.translate('user-profile.errors.email')}</span
+                >`
               : ''}
           </label>
           <label>
-            <span>Dirección:</span>
+            <span>${i18n.translate('user-profile.user-data.address')}:</span>
             <input
               type="text"
               name="address"
@@ -212,11 +236,13 @@ export class UserProfile extends LitElement {
               required
             />
             ${this.errors.address
-              ? html`<span class="error">${this.errors.address}</span>`
+              ? html`<span class="error"
+                  >${i18n.translate('user-profile.errors.address')}</span
+                >`
               : ''}
           </label>
           <label>
-            <span>Teléfono:</span>
+            <span>${i18n.translate('user-profile.user-data.phone')}:</span>
             <input
               type="tel"
               name="phone"
@@ -226,14 +252,18 @@ export class UserProfile extends LitElement {
               required
             />
             ${this.errors.phone
-              ? html`<span class="error">${this.errors.phone}</span>`
+              ? html`<span class="error"
+                  >${i18n.translate('user-profile.errors.phone')}</span
+                >`
               : ''}
           </label>
           <div class="buttons">
             <button type="submit" ?disabled=${this._hasErrors()}>
-              Guardar Cambios
+              ${i18n.translate('ui.save-changes')}
             </button>
-            <button type="button" @click=${this._handleCancel}>Cancelar</button>
+            <button type="button" @click=${this._handleCancel}>
+              ${i18n.translate('ui.cancel')}
+            </button>
           </div>
         </form>
       </div>

@@ -1,10 +1,11 @@
 import { LitElement, html } from 'lit';
+import { i18n } from '../services/LanguageService.js';
 
 export class PageNotFound extends LitElement {
   render() {
     return html`
-      <h2>Página no encontrada</h2>
-      <p>Lo sentimos, la página que buscas no existe.</p>
+      <h2>${i18n.translate('page-not-found.title')}</h2>
+      <p>${i18n.translate('page-not-found.message')}</p>
     `;
   }
 }

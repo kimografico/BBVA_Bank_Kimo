@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { i18n } from '../services/LanguageService.js';
 
 export class Toast extends LitElement {
   static styles = css`
@@ -15,10 +16,14 @@ export class Toast extends LitElement {
     }
 
     .toast {
+      position: fixed;
+      bottom: 5px;
+      z-index: 1000;
+      pointer-events: none; /* Permite que los clics pasen a través del toast */
       color: white;
       padding: 12px 20px;
       border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
       opacity: 0;
       transform: translateY(20px);
       transition:
@@ -35,33 +40,31 @@ export class Toast extends LitElement {
     }
 
     .toast.success {
-      background-color: #4caf50; /* Verde */
+      background-color: #4caf50;
     }
 
     .toast.error {
-      background-color: #d80e00; /* Rojo */
+      background-color: #d80e00;
     }
 
     .toast.info {
-      background-color: var(--primary-color); /* Azul */
+      background-color: var(--primary-color);
     }
 
     .toast.warning {
-      background-color: #ff9800; /* Naranja */
+      background-color: #ff9800;
     }
   `;
 
   static properties = {
+    type: { type: String }, // success, error, info, warning
     message: { type: String },
-    type: { type: String },
-    duration: { type: Number },
   };
 
   constructor() {
     super();
+    this.type = 'info';
     this.message = '';
-    this.type = 'info'; // 'success', 'error', 'info', 'warning'
-    this.duration = 3000;
   }
 
   showToast(message, type = 'info', duration = 3000) {
@@ -108,7 +111,15 @@ export class Toast extends LitElement {
   }
 
   render() {
-    return html`<div id="toast-container"></div>`;
+    const toastMessage =
+      this.message || i18n.translate(`ui.toast.${this.type}`);
+    return html`
+      <div id="toast-container">
+        <div class="toast ${this.type}">
+          <p>${toastMessage}</p>
+        </div>
+      </div>
+    `;
   }
 }
 

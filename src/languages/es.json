@@ -1,0 +1,137 @@
+{
+  "header": {
+    "title": "Banco Kimo",
+    "menu": {
+      "home": "Inicio",
+      "accounts": "Cuentas",
+      "secrets": "Secretos",
+      "profile": "Perfil"
+    }
+  },
+  "ui": {
+    "back-button": "Volver",
+    "back-to-list-button": "Volver a la lista",
+    "cancel": "Cancelar",
+    "accept": "Aceptar",
+    "save": "Guardar",
+    "edit": "Editar",
+    "save-changes": "Guardar Cambios",
+    "error-form": "Errores en el formulario",
+    "error-update": "Error al escribir datos",
+    "no-changes": "No se han realizado cambios",
+    "success-update": "Perfil actualizado con éxito",
+    "loading": "Cargando",
+    "alt":{
+      "background": "Fondo decorativo"
+    },
+    "toast": {
+      "success": "Operación realizada con éxito.",
+      "error": "Se ha producido un error.",
+      "info": "Información importante.",
+      "warning": "Advertencia: revise los datos."
+    }
+  },
+  "footer": {
+    "info": "Esta aplicación es un proyecto formativo y no representa a una entidad bancaria real"
+  },
+  "page-not-found": {
+    "title": "Página no encontrada",
+    "message": "Lo sentimos, la página que buscas no existe."
+
+  },
+  "account": {
+    "loading-details": "Cargando detalles de la cuenta...",
+    "header": "Cuenta {{alias}}",
+    "details": {
+      "id": "ID",
+      "alias": "Alias",
+      "iban": "IBAN",
+      "balance": "Saldo",
+      "level": "Nivel"
+    },
+    "transactions": {
+      "header": "Transacciones",
+      "date": "Fecha",
+      "description": "Descripción",
+      "amount": "Monto",
+      "pagination": {
+        "prev": "Anterior",
+        "next": "Siguiente",
+        "page-size": "Elementos por página"
+      }
+    },
+    "error": {
+      "not-found": "La cuenta no fue encontrada.",
+      "loaded": "No se pudieron cargar las transacciones.",
+      "generic": "Ocurrió un error al cargar los datos de la cuenta."
+    }
+  },
+  "user-profile": {
+    "user-data": {
+      "avatar-alt": "Avatar",
+      "name": "Nombre",
+      "surname": "Apellidos",
+      "email": "Email",
+      "address": "Dirección",
+      "phone": "Teléfono",
+      "edit-profile": "Editar Perfil"
+    },
+    "errors": {
+      "name": "El nombre no es válido.",
+      "surname": "Los apellidos no son válidos.",
+      "email": "El email no es válido.",
+      "address": "La dirección no es válida.",
+      "phone": "El teléfono debe tener 9 dígitos."
+    },
+    "toast": {
+      "success": "Perfil de {{name}} actualizado con éxito",
+      "error": "Se produjo un error al actualizar el perfil"
+    }
+  },
+  "accounts-list": {
+    "header": "Cuentas",
+    "filters": {
+      "all": "Todas",
+      "national": "Nacionales",
+      "international": "Internacionales"
+    },
+    "table": {
+      "alias": "Alias",
+      "iban": "IBAN",
+      "amount": "Saldo",
+      "edit-alias": "Editar Alias"
+    },
+    "messages": {
+      "no-accounts": "No hay cuentas disponibles.",
+      "success-update": "El alias se actualizó con éxito.",
+      "error-update": "Hubo un error al actualizar el alias."
+    }
+  },
+  "edit-alias-modal": {
+    "header": "Introduce el nuevo Alias",
+    "label": "Nuevo alias",
+    "save-button": "Cambiar",
+    "cancel-button": "Cancelar"
+  },
+  "services": {
+    "account": {
+      "errors": {
+        "account-not-found": "❌ Error! La cuenta no existe.",
+        "alias-same": "No se pudo cambiar el alias, el nuevo alias es el mismo que el antiguo.",
+        "alias-exists": "No se pudo cambiar el alias, ese alias ya existe."
+      },
+      "success": {
+        "alias-updated": "Se ha cambiado el alias con éxito."
+      }
+    },
+    "validation": {
+      "errors": {
+        "name": "El nombre debe tener al menos 2 caracteres.",
+        "surname": "Los apellidos no pueden estar vacíos.",
+        "email": "El correo electrónico no es válido.",
+        "address": "La dirección no puede estar vacía.",
+        "phone": "El número de teléfono debe tener 9 dígitos."
+      }
+    }
+  }
+}

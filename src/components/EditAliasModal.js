@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit';
 import styles from '../styles/EditAliasModal-styles.js';
+import { i18n } from '../services/LanguageService.js'; // Importar el servicio de traducción
 
 export class EditAliasModal extends LitElement {
   static styles = styles;
@@ -48,11 +49,11 @@ export class EditAliasModal extends LitElement {
     return html`
       <dialog>
         <div class="header">
-          <h2>Introduce el nuevo Alias</h2>
+          <h2>${i18n.translate('edit-alias-modal.header')}</h2>
         </div>
         <form @submit=${this._save}>
           <label>
-            Nuevo alias:
+            ${i18n.translate('edit-alias-modal.label')}
             <input
               type="text"
               .value=${this.editingAlias}
@@ -61,10 +62,10 @@ export class EditAliasModal extends LitElement {
           </label>
           <menu>
             <button type="button" id="saveBtn" @click=${this._save}>
-              CAMBIAR
+              ${i18n.translate('edit-alias-modal.save-button')}
             </button>
             <button type="button" id="closeBtn" @click=${this._close}>
-              Cancelar
+              ${i18n.translate('edit-alias-modal.cancel-button')}
             </button>
           </menu>
         </form>

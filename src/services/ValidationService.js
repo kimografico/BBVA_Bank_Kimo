@@ -1,14 +1,16 @@
+import { i18n } from './LanguageService.js';
+
 export const ValidationService = {
   validateName(name) {
     if (!name || name.trim().length < 2) {
-      return 'El nombre debe tener al menos 2 caracteres.';
+      return i18n.translate('services.validation.errors.name');
     }
     return '';
   },
 
   validateSurname(surname) {
     if (!surname || surname.trim().length === 0) {
-      return 'Los apellidos no pueden estar vacíos.';
+      return i18n.translate('services.validation.errors.surname');
     }
     return '';
   },
@@ -16,14 +18,14 @@ export const ValidationService = {
   validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      return 'El correo electrónico no es válido.';
+      return i18n.translate('services.validation.errors.email');
     }
     return '';
   },
 
   validateAddress(address) {
     if (!address || address.trim().length === 0) {
-      return 'La dirección no puede estar vacía.';
+      return i18n.translate('services.validation.errors.address');
     }
     return '';
   },
@@ -31,7 +33,7 @@ export const ValidationService = {
   validatePhone(phone) {
     const phoneRegex = /^\d{9}$/;
     if (!phoneRegex.test(phone)) {
-      return 'El número de teléfono debe tener 9 dígitos.';
+      return i18n.translate('services.validation.errors.phone');
     }
     return '';
   },

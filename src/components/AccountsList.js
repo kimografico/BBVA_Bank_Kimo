@@ -4,6 +4,7 @@ import styles from '../styles/AccountsList-styles.js';
 import './EditAliasModal.js';
 import './toast.js';
 import { AccountService } from '../services/AccountService.js';
+import { i18n } from '../services/LanguageService.js';
 
 export class AccountsList extends LitElement {
   static styles = styles;
@@ -43,16 +44,16 @@ export class AccountsList extends LitElement {
     const toast = this.shadowRoot.querySelector('bk-toast');
     const message = AccountService.updateAccountAlias(id, alias);
 
-    // Usar el toast en lugar del contenedor de error
     if (message.includes('éxito')) {
-      toast.showSuccess(message);
+      toast.showSuccess(
+        i18n.translate('accounts-list.messages.success-update'),
+      );
     } else {
-      toast.showError(message);
+      toast.showError(i18n.translate('accounts-list.messages.error-update'));
     }
 
     this.accounts = [...AccountService.getAccounts()]; // Para que se detecte y renderice el cambio hay que crear una copia de la lista
 
-    // Actualizar filteredAccounts para reflejar los cambios
     this._updateFilteredAccounts();
   }
 
@@ -62,7 +63,6 @@ export class AccountsList extends LitElement {
     this._updateFilteredAccounts();
   }
 
-  // Método auxiliar para actualizar las cuentas filtradas
   _updateFilteredAccounts() {
     const filteredAccounts = this.accounts.filter(
       account =>
@@ -74,7 +74,6 @@ export class AccountsList extends LitElement {
 
   willUpdate(changedProperties) {
     super.willUpdate(changedProperties);
-    // Si la propiedad accounts cambió, actualizar filteredAccounts
     if (changedProperties.has('accounts')) {
       this._updateFilteredAccounts();
     }
@@ -83,7 +82,9 @@ export class AccountsList extends LitElement {
   render() {
     if (!this.filteredAccounts || this.filteredAccounts.length === 0) {
       return html`
-        <p class="error">No hay cuentas</p>
+        <p class="error">
+          ${i18n.translate('accounts-list.messages.no-accounts')}
+        </p>
         <bk-toast></bk-toast>
       `;
     }
@@ -91,16 +92,22 @@ export class AccountsList extends LitElement {
     return html`
       <div class="container">
         <div class="header">
-          <h2>Cuentas</h2>
+          <h2>${i18n.translate('accounts-list.header')}</h2>
           <select
             class="dropdown"
             id="pageSizeDropdown"
             @change=${this._onAccountTypeChange}
             .value=${String(this.listedAccountsType)}
           >
-            <option value="all">Todas</option>
-            <option value="eur">Nacionales</option>
-            <option value="usd">Internacionales</option>
+            <option value="all">
+              ${i18n.translate('accounts-list.filters.all')}
+            </option>
+            <option value="eur">
+              ${i18n.translate('accounts-list.filters.national')}
+            </option>
+            <option value="usd">
+              ${i18n.translate('accounts-list.filters.international')}
+            </option>
           </select>
         </div>
         <table>
@@ -125,7 +132,7 @@ export class AccountsList extends LitElement {
                       );
                     }}
                   >
-                    EDITAR ALIAS
+                    ${i18n.translate('accounts-list.table.edit-alias')}
                   </button>
                 </td>
               </tr>

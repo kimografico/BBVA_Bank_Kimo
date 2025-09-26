@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { i18n } from '../services/LanguageService.js';
 
 export class Loader extends LitElement {
   static styles = css`
@@ -117,7 +118,11 @@ export class Loader extends LitElement {
         class=${this.active ? 'visible' : ''}
         aria-hidden=${!this.active}
       >
-        <div class="matrix" role="img" aria-label="Cargando">
+        <div
+          class="matrix"
+          role="img"
+          aria-label="${i18n.translate('ui.loading')}"
+        >
           <div class="cell pos-0"></div>
           <div class="cell pos-1"></div>
           <div class="cell pos-2"></div>

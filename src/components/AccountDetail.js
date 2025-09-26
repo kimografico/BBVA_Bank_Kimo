@@ -1,5 +1,6 @@
 import { html, LitElement } from 'lit';
 import styles from '../styles/AccountDetail-styles.js';
+import { i18n } from '../services/LanguageService.js';
 
 export class AccountDetail extends LitElement {
   static styles = styles;
@@ -74,35 +75,51 @@ export class AccountDetail extends LitElement {
 
     if (!this.account) {
       return html`<div class="${containerClass}">
-        Cargando detalles de la cuenta...
+        ${i18n.translate('account.loading-details')}
       </div>`;
     }
 
     const accountSection = html`
       <div class="${containerClass}">
         <div class="image-container">
-          <img src="/assets/account-image.jpg" alt="Fondo" />
+          <img
+            src="/assets/account-image.jpg"
+            alt="${i18n.translate('ui.alt.background')}"
+          />
         </div>
         <div class="content">
           <div class="header">
-            <h2>Cuenta ${this.account.alias}</h2>
+            <h2>
+              ${i18n
+                .translate('account.header')
+                .replace('{{alias}}', this.account.alias)}
+            </h2>
           </div>
           <div class="details">
-            <p><strong>ID:</strong> ${this.account.id}</p>
-            <p><strong>Alias:</strong> ${this.account.alias}</p>
             <p>
-              <strong>IBAN:</strong>
+              <strong>${i18n.translate('account.details.id')}:</strong>
+              ${this.account.id}
+            </p>
+            <p>
+              <strong>${i18n.translate('account.details.alias')}:</strong>
+              ${this.account.alias}
+            </p>
+            <p>
+              <strong>${i18n.translate('account.details.iban')}:</strong>
               <span
-                >${AccountDetail._formatIBAN(this.account.number.iban)}</span
+                >${AccountDetail._formatIBAN(this.account.number.iban)}:</span
               >
             </p>
             <p>
-              <strong>Saldo:</strong>
+              <strong>${i18n.translate('account.details.balance')}:</strong>
               <span class="${this.account.amount.currency}">
                 ${this.account.amount.amount}
               </span>
             </p>
-            <p><strong>Nivel:</strong> ${this.account.level.description}</p>
+            <p>
+              <strong>${i18n.translate('account.details.level')}:</strong>
+              ${this.account.level.description}
+            </p>
           </div>
         </div>
       </div>
@@ -121,7 +138,7 @@ export class AccountDetail extends LitElement {
         <div class="${containerClass}">
           <div class="content">
             <div class="header-transactions">
-              <h3>Transacciones</h3>
+              <h3>${i18n.translate('account.transactions.header')}</h3>
             </div>
 
             ${paged.map(

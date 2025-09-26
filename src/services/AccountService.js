@@ -1,3 +1,5 @@
+import { i18n } from './LanguageService.js';
+
 export const AccountService = {
   _accounts: [],
 
@@ -45,17 +47,21 @@ export const AccountService = {
     const account = this._accounts.find(acc => acc.id === id); // Esto es una referencia al array (no una copia). Se enlaza
 
     if (!account) {
-      return '❌ Error! La cuenta no existe';
+      return i18n.translate('services.account.errors.account-not-found');
     }
 
-    if (alias === this._accounts.find(acc => acc.id === id).alias.toUpperCase())
-      return 'No se pudo cambiar el alias, el nuevo alias es el mismo que el antiguo';
+    if (
+      alias === this._accounts.find(acc => acc.id === id).alias.toUpperCase()
+    ) {
+      return i18n.translate('services.account.errors.alias-same');
+    }
 
-    if (this.aliasExist(alias))
-      return 'No se pudo cambiar el alias, ese alias ya existe';
+    if (this.aliasExist(alias)) {
+      return i18n.translate('services.account.errors.alias-exists');
+    }
 
     account.alias = alias; // Aqui se hace el cambio, sin necesidad de sustituir el array completo
-    return 'Se ha cambiado el alias con éxito';
+    return i18n.translate('services.account.success.alias-updated');
   },
 };
 
