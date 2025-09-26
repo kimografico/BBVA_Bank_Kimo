@@ -27,7 +27,7 @@ const styles = css`
     object-fit: cover;
     transition: 0.75s;
     &:hover {
-      transform: scale(1.15);
+      transform: scale(1.4);
     }
   }
 
@@ -131,7 +131,7 @@ const styles = css`
     color: var(--primary-color);
     background-color: white;
     border: 2px solid var(--primary-color);
-    border-radius: 20px;
+    border-radius: 50px;
     cursor: pointer;
     transition: background-color 0.5s;
     width: 45%;
@@ -142,10 +142,28 @@ const styles = css`
     background-color: var(--primary-color);
   }
 
+  .user-form button:disabled {
+    color: grey;
+    border: 2px solid lightgrey;
+    cursor: not-allowed;
+    &:hover {
+      background-color: white;
+    }
+  }
+
+  .user-form .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+
   @media (max-width: 640px) {
-    .user-card {
+    .user-card,
+    .user-form {
       flex-direction: column;
       align-items: center;
+      min-width: unset;
+      width: 325px;
     }
 
     .avatar-container {
@@ -156,14 +174,15 @@ const styles = css`
     .info {
       padding: 10px;
       text-align: center;
-    }
-
-    .info h1 {
-      font-size: 1.25rem;
-    }
-
-    .info p {
-      font-size: 0.9rem;
+      p {
+        font-size: 1.25rem;
+      }
+      button {
+        font-size: 1rem;
+        border: 1px solid var(--primary-color);
+        width: 100%;
+        margin: 20px 0;
+      }
     }
   }
 `;

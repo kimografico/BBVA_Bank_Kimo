@@ -11,13 +11,13 @@
     "prepare": "husky",
     "test": "cls && web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",
+    "test:commit": "web-test-runner --coverage",
+    "test:lint": "npm run test && npm run lint:fix && npm run format",
     "build": "rimraf dist && rollup -c rollup.config.js && npm run analyze -- --exclude dist",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
     "start": "web-dev-server",
-    "start:api": "node api/server.js",
-    "test:pre-commit": "web-test-runner --coverage --browsers chromium",
-    "test:lint": "npm run test && npm run lint:fix && npm run format"
+    "start:api": "node api/server.js"
   },
   "dependencies": {
     "@vaadin/router": "^2.0.0",

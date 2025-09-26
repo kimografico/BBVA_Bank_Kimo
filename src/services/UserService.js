@@ -24,4 +24,17 @@ export const UserService = {
   getUser(id) {
     return this._users.find(user => user.id === id) || null;
   },
+
+  updateUser(user) {
+    const { id } = user;
+    const index = this._users.findIndex(u => u.id === id);
+
+    if (index !== -1) {
+      this._users[index].name = user.name;
+      this._users[index].surname = user.surname;
+      this._users[index].email = user.email;
+      this._users[index].address = user.address;
+      this._users[index].phone = user.phone;
+    }
+  },
 };
