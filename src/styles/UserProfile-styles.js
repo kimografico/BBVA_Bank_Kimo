@@ -71,6 +71,77 @@ const styles = css`
     color: white;
   }
 
+  .user-form {
+    max-width: 800px;
+    margin: 25px auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    font-family: 'Sansation', sans-serif;
+    text-align: left;
+    min-width: 450px;
+    display: none;
+  }
+
+  .user-form h1 {
+    font-size: 1.75rem;
+    margin-bottom: 20px;
+    margin-top: 0;
+    color: var(--primary-color);
+  }
+
+  .user-form label {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+
+  .user-form label span {
+    font-size: 1rem;
+    color: #555555;
+    margin-bottom: 5px;
+  }
+
+  .user-form input {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    transition: border-color 0.75s;
+  }
+
+  .user-form input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+  }
+
+  .user-form .buttons {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 15px;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+
+  .user-form button {
+    display: block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: var(--primary-color);
+    background-color: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+    width: 45%;
+  }
+
+  .user-form button:hover {
+    color: white;
+    background-color: var(--primary-color);
+  }
+
   @media (max-width: 640px) {
     .user-card {
       flex-direction: column;
