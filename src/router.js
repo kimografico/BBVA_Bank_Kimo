@@ -30,6 +30,18 @@ export function initRouter(outlet, loader) {
     },
 
     {
+      path: '/user',
+      component: 'user-profile-page',
+      action: async () => {
+        activateLoader();
+        await import('./pages/user-profile.js');
+        deactivateLoader();
+      },
+      onBeforeEnter: activateLoader,
+      onAfterEnter: deactivateLoader,
+    },
+
+    {
       path: '/accounts',
       component: 'accounts-page',
       action: async () => {

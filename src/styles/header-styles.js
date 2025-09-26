@@ -58,6 +58,10 @@ const styles = css`
         }
       }
     }
+
+    .disabled {
+      pointer-events: none;
+    }
   }
 
   @media (max-width: 640px) {

@@ -1,5 +1,3 @@
-import { log } from '@vaadin/router/dist/resolver/utils';
-
 export const AccountService = {
   _accounts: [],
 
@@ -36,7 +34,6 @@ export const AccountService = {
 
   getAccountTransactions(id) {
     const transactions = this.loadApiTransactions(id);
-    log(transactions);
     return transactions;
   },
 
