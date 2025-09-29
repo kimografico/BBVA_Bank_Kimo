@@ -207,6 +207,22 @@ describe('account-detail-page', () => {
     AccountService.getAccount.restore();
     AccountService.getAccountTransactions.restore();
   });
+
+  it('should execute _handleLanguageChange arrow function', async () => {
+    Sinon.stub(i18n, 'translate').callsFake(key => `TRANSLATED_${key}`);
+
+    const component = await fixture(
+      html`<account-detail-page></account-detail-page>`,
+    );
+    const spy = Sinon.spy(component, 'requestUpdate');
+
+    component._handleLanguageChange();
+
+    expect(spy.calledOnce).to.be.true;
+
+    spy.restore();
+    Sinon.restore();
+  });
 });
 
 describe('header and footer', () => {

@@ -1,5 +1,7 @@
 import { fixture, html, expect } from '@open-wc/testing';
 import '../src/components/AccountDetail.js';
+import Sinon from 'sinon';
+import { i18n } from '../src/services/LanguageService.js';
 
 describe('bk-account-detail', () => {
   it('should render the component', async () => {
@@ -171,6 +173,19 @@ describe('bk-account-detail', () => {
         component._onPageSizeChange(mockEvent);
         expect(component.pageSize).to.equal(originalPageSize);
       });
+    });
+
+    it('should execute _handleLanguageChange arrow function', async () => {
+      Sinon.stub(i18n, 'translate').callsFake(key => `TRANSLATED_${key}`);
+
+      const spy = Sinon.spy(component, 'requestUpdate');
+
+      component._handleLanguageChange();
+
+      expect(spy.calledOnce).to.be.true;
+
+      spy.restore();
+      Sinon.restore();
     });
   });
 });

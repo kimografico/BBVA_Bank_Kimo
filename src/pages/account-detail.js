@@ -36,6 +36,23 @@ export class AccountDetail extends LitElement {
     this._loadAccount();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+
+    this._handleLanguageChange = () => {
+      this.requestUpdate(); // Forzar re-render cuando cambie el idioma
+    };
+    document.addEventListener('language-changed', this._handleLanguageChange);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener(
+      'language-changed',
+      this._handleLanguageChange,
+    );
+  }
+
   async _loadAccount() {
     this.account = null;
     this.transactions = null;

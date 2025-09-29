@@ -22,6 +22,23 @@ export class AccountDetail extends LitElement {
     this.pageSize = 5;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+
+    this._handleLanguageChange = () => {
+      this.requestUpdate(); // Forzar re-render cuando cambie el idioma
+    };
+    document.addEventListener('language-changed', this._handleLanguageChange);
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener(
+      'language-changed',
+      this._handleLanguageChange,
+    );
+  }
+
   static _formatIBAN(iban) {
     return iban.replace(/(.{4})/g, '$1\u00A0').trim();
   }
