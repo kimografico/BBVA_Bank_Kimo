@@ -5,6 +5,8 @@ import '../src/pages/accounts.js';
 import '../src/components/AccountsList.js';
 import '../src/components/AccountDetail.js';
 import '../src/pages/account-detail.js';
+import '../src/pages/user-profile.js';
+import '../src/components/Header.js';
 import Sinon from 'sinon';
 import { AccountService } from '../src/services/AccountService.js';
 
@@ -26,6 +28,15 @@ describe('test pages', () => {
     const component = await fixture(html`<accounts-page></accounts-page>`);
 
     const accountsList = component.shadowRoot.querySelector('bk-accounts-list');
+    expect(accountsList).to.exist;
+  });
+
+  it('should show the user profile', async () => {
+    const component = await fixture(
+      html`<user-profile-page></user-profile-page>`,
+    );
+
+    const accountsList = component.shadowRoot.querySelector('bk-user-profile');
     expect(accountsList).to.exist;
   });
 });
@@ -156,5 +167,39 @@ describe('account-detail-page', () => {
 
     AccountService.getAccount.restore();
     AccountService.getAccountTransactions.restore();
+  });
+});
+
+describe('header and footer', () => {
+  it('should show the header', async () => {
+    const component = await fixture(html`<app-header></app-header>`);
+    expect(component).to.exist;
+  });
+
+  it('should show the footer', async () => {
+    const component = await fixture(html`<app-footer></app-footer>`);
+    expect(component).to.exist;
+  });
+
+  it('should toggle menu state when toggleMenu is called', async () => {
+    const component = await fixture(html`<bk-header></bk-header>`);
+
+    expect(component.isMenuOpen).to.be.false;
+
+    component.toggleMenu();
+    expect(component.isMenuOpen).to.be.true;
+
+    component.toggleMenu();
+    expect(component.isMenuOpen).to.be.false;
+  });
+
+  it('should close menu when closeMenu is called', async () => {
+    const component = await fixture(html`<bk-header></bk-header>`);
+
+    component.isMenuOpen = true;
+    expect(component.isMenuOpen).to.be.true;
+
+    component.closeMenu();
+    expect(component.isMenuOpen).to.be.false;
   });
 });
