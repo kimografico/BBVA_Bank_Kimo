@@ -171,7 +171,7 @@ export class UserProfile extends LitElement {
             <b>${i18n.translate('user-profile.user-data.phone')}:</b> ${this
               .user.phone}
           </p>
-          <button @click=${this._handleEdit}>
+          <button @click=${this._handleEdit} id="edit-btn">
             ${i18n.translate('ui.edit')}
           </button>
         </div>
@@ -259,7 +259,7 @@ export class UserProfile extends LitElement {
             <button type="submit" ?disabled=${this._hasErrors()}>
               ${i18n.translate('ui.save-changes')}
             </button>
-            <button type="button" @click=${this._handleCancel}>
+            <button type="button" @click=${this._handleCancel} id="cancel-btn">
               ${i18n.translate('ui.cancel')}
             </button>
           </div>

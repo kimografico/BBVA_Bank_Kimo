@@ -202,4 +202,23 @@ describe('header and footer', () => {
     component.closeMenu();
     expect(component.isMenuOpen).to.be.false;
   });
+
+  it('should apply "open" class to menu when isMenuOpen is true', async () => {
+    const component = await fixture(html`<bk-header></bk-header>`);
+    await component.updateComplete;
+
+    const menuList = component.shadowRoot.querySelector('ul');
+
+    expect(component.isMenuOpen).to.be.false;
+    expect(menuList.classList.contains('open')).to.be.false;
+    expect(menuList.className).to.equal('');
+
+    // Abrimos el menú
+    component.toggleMenu();
+    await component.updateComplete;
+
+    expect(component.isMenuOpen).to.be.true;
+    expect(menuList.classList.contains('open')).to.be.true;
+    expect(menuList.className).to.equal('open');
+  });
 });
