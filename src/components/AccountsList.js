@@ -24,10 +24,24 @@ export class AccountsList extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+
+    this._handleLanguageChange = () => {
+      this.requestUpdate(); // Forzar re-render cuando cambie el idioma
+    };
+    document.addEventListener('language-changed', this._handleLanguageChange);
+
     if (this.accounts.length === 0) {
       this.accounts = AccountService.getAccounts();
       this.filteredAccounts = this.accounts;
     }
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener(
+      'language-changed',
+      this._handleLanguageChange,
+    );
   }
 
   openEditModal(id, alias) {

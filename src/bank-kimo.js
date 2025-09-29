@@ -9,12 +9,6 @@ import './components/Footer.js';
 import './components/Loader.js';
 
 class BankKimo extends LitElement {
-  firstUpdated() {
-    const outlet = this.shadowRoot.querySelector('#outlet');
-    const loader = this.shadowRoot.querySelector('bk-loader');
-    initRouter(outlet, loader);
-  }
-
   static styles = styles;
 
   static properties = {
@@ -31,9 +25,33 @@ class BankKimo extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
+
+    this._handleLanguageChange = () => {
+      this._updateTexts();
+    };
+    document.addEventListener('language-changed', this._handleLanguageChange);
+
     await i18n.loadLanguage('es');
+    this._updateTexts();
+  }
+
+  _updateTexts() {
     this.footer = `© 2025 Kimo ◆ ${i18n.translate('footer.info')}`;
     this.header = i18n.translate('header.title');
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener(
+      'language-changed',
+      this._handleLanguageChange,
+    );
+  }
+
+  firstUpdated() {
+    const outlet = this.shadowRoot.querySelector('#outlet');
+    const loader = this.shadowRoot.querySelector('bk-loader');
+    initRouter(outlet, loader);
   }
 
   render() {

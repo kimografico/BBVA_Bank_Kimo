@@ -10,14 +10,15 @@ export class BankHeader extends LitElement {
     bankTitle: { type: String },
     userName: { type: String },
     isMenuOpen: { type: Boolean },
+    currentLanguage: { type: String },
   };
 
   constructor() {
     super();
-    this.bankTitle = 'Mi Banco';
     const user = UserService.getUser(1);
     this.userName = `${user.name} ${user.surname}`;
     this.isMenuOpen = false;
+    this.currentLanguage = 'es';
   }
 
   toggleMenu() {
@@ -28,11 +29,22 @@ export class BankHeader extends LitElement {
     this.isMenuOpen = false;
   }
 
+  async _onLanguageChange(event) {
+    const selectedLanguage = event.target.value;
+    this.currentLanguage = selectedLanguage;
+
+    await i18n.loadLanguage(selectedLanguage); // El Servicio tiene un fetch, asi que es asíncrono
+    document.dispatchEvent(new CustomEvent('language-changed'));
+    this.requestUpdate();
+
+    this.closeMenu();
+  }
+
   render() {
     return html`
       <header>
         <div>
-          <h1>${this.bankTitle}</h1>
+          <h1>${i18n.translate('header.title')}</h1>
           <button class="menu-toggle" @click="${this.toggleMenu}">☰</button>
           <ul class="${this.isMenuOpen ? 'open' : ''}">
             <li>
@@ -53,6 +65,17 @@ export class BankHeader extends LitElement {
             <li class="disabled">|</li>
             <li>
               <a href="/user" @click="${this.closeMenu}">👤 ${this.userName}</a>
+            </li>
+            <li class="language-selector">
+              <select
+                class="language-dropdown"
+                @change="${this._onLanguageChange}"
+                .value="${this.currentLanguage}"
+                aria-label="${i18n.translate('header.language-selector.label')}"
+              >
+                <option value="es">Español</option>
+                <option value="en">English</option>
+              </select>
             </li>
           </ul>
         </div>

@@ -23,8 +23,22 @@ export class UserProfile extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+
+    this._handleLanguageChange = () => {
+      this.requestUpdate();
+    };
+    document.addEventListener('language-changed', this._handleLanguageChange);
+
     this.user = UserService.getUser(1);
     this.originalUser = { ...this.user };
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener(
+      'language-changed',
+      this._handleLanguageChange,
+    );
   }
 
   _handleInput(event) {

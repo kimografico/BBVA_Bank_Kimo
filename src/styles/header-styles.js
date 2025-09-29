@@ -71,6 +71,27 @@ const styles = css`
     }
   }
 
+  select,
+  ::picker(select) {
+    appearance: base-select;
+    border: 2px solid var(--primary-color);
+    border-radius: 25px;
+    padding: 5px;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    margin: 10px;
+  }
+
+  select {
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    color: var(--text-color-light);
+    cursor: pointer;
+    margin: -10px 0;
+  }
+
   @media (max-width: 640px) {
     header {
       text-align: center;
@@ -123,6 +144,22 @@ const styles = css`
         .disabled {
           display: none;
         }
+      }
+
+      .language-selector .language-btn,
+      .language-dropdown {
+        border: none;
+        width: 100%;
+        text-align: center;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      select,
+      ::picker(select) {
+        font-size: 1.5rem;
+        text-align: center;
+        padding: 10px 20px;
       }
     }
   }

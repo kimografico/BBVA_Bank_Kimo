@@ -36,7 +36,7 @@ export class BankFooter extends LitElement {
 
   constructor() {
     super();
-    this.footerInfo = 'Footer';
+    this.footerInfo = ''; // Valor inicial vacío
   }
 
   render() {
