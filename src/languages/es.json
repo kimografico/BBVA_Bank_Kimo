@@ -6,6 +6,19 @@
       "accounts": "Cuentas",
       "secrets": "Secretos",
       "profile": "Perfil"
+    },
+    "language-selector": {
+      "label": "Seleccionar idioma"
+    }
+  },
+  "homepage": {
+    "greeting": "Hola",
+    "welcome": "Bienvenido a tu banco de confianza",
+    "question": "¿Qué quieres hacer?",
+    "links": {
+      "accounts": "Consultar mis cuentas",
+      "profile": "Ver mi perfil",
+      "secrets": "Espiar secretos del banco"
     }
   },
   "ui": {
@@ -37,7 +50,6 @@
   "page-not-found": {
     "title": "Página no encontrada",
     "message": "Lo sentimos, la página que buscas no existe."
-
   },
   "account": {
     "loading-details": "Cargando detalles de la cuenta...",

@@ -1,11 +1,24 @@
 {
   "header": {
-    "title": "KimoBank",
+    "title": "Kimo Bank",
     "menu": {
       "home": "Home",
       "accounts": "Accounts",
       "secrets": "Secrets",
       "profile": "Profile"
+    },
+    "language-selector": {
+      "label": "Select language"
+    }
+  },
+  "homepage": {
+    "greeting": "Hello",
+    "welcome": "Welcome to your trusted bank",
+    "question": "What would you like to do?",
+    "links": {
+      "accounts": "Check my accounts",
+      "profile": "View my profile",
+      "secrets": "Spy bank secrets"
     }
   },
   "ui": {

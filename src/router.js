@@ -12,7 +12,7 @@ export function initRouter(outlet, loader) {
   const routes = [
     {
       path: '/',
-      component: 'accounts-page',
+      component: 'home-page',
       action: async () => {
         activateLoader();
 
@@ -22,7 +22,7 @@ export function initRouter(outlet, loader) {
           setTimeout(resolve, 1000);
         });
 
-        await import('./pages/accounts.js');
+        await import('./pages/homepage.js');
         deactivateLoader();
       },
       onBeforeEnter: activateLoader,
