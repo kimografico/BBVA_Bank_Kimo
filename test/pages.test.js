@@ -9,6 +9,7 @@ import '../src/pages/user-profile.js';
 import '../src/components/Header.js';
 import Sinon from 'sinon';
 import { AccountService } from '../src/services/AccountService.js';
+import { i18n } from '../src/services/LanguageService.js';
 
 describe('test pages', () => {
   it('should show a 404 page when the route is not found', async () => {
@@ -38,6 +39,44 @@ describe('test pages', () => {
 
     const accountsList = component.shadowRoot.querySelector('bk-user-profile');
     expect(accountsList).to.exist;
+  });
+
+  describe('PageNotFound language reactivity', () => {
+    beforeEach(() => {
+      Sinon.stub(i18n, 'translate').callsFake(key => `TRANSLATED_${key}`);
+    });
+
+    afterEach(() => {
+      Sinon.restore();
+    });
+
+    it('should have _handleLanguageChange method that calls requestUpdate', async () => {
+      const component = await fixture(html`<page-not-found></page-not-found>`);
+      await component.updateComplete;
+
+      expect(component._handleLanguageChange).to.be.a('function');
+
+      const requestUpdateSpy = Sinon.spy(component, 'requestUpdate');
+
+      component._handleLanguageChange();
+
+      expect(requestUpdateSpy.calledOnce).to.be.true;
+
+      requestUpdateSpy.restore();
+    });
+
+    it('should trigger requestUpdate when language-changed event is dispatched', async () => {
+      const component = await fixture(html`<page-not-found></page-not-found>`);
+      await component.updateComplete;
+
+      const requestUpdateSpy = Sinon.spy(component, 'requestUpdate');
+
+      document.dispatchEvent(new CustomEvent('language-changed'));
+
+      expect(requestUpdateSpy.calledOnce).to.be.true;
+
+      requestUpdateSpy.restore();
+    });
   });
 });
 
@@ -220,5 +259,50 @@ describe('header and footer', () => {
     expect(component.isMenuOpen).to.be.true;
     expect(menuList.classList.contains('open')).to.be.true;
     expect(menuList.className).to.equal('open');
+  });
+
+  describe('_onLanguageChange method', () => {
+    let component;
+    let closeMenuSpy;
+    let loadLanguageSpy;
+
+    beforeEach(async () => {
+      component = await fixture(html`<bk-header></bk-header>`);
+      await component.updateComplete;
+
+      closeMenuSpy = Sinon.spy(component, 'closeMenu');
+      loadLanguageSpy = Sinon.stub(i18n, 'loadLanguage').resolves();
+    });
+
+    afterEach(() => {
+      Sinon.restore();
+    });
+
+    it('should change currentLanguage when _onLanguageChange is called', async () => {
+      const mockEvent = { target: { value: 'en' } };
+
+      expect(component.currentLanguage).to.equal('es'); // Estado inicial
+
+      await component._onLanguageChange(mockEvent);
+
+      expect(component.currentLanguage).to.equal('en');
+    });
+
+    it('should call i18n.loadLanguage with selected language', async () => {
+      const mockEvent = { target: { value: 'en' } };
+
+      await component._onLanguageChange(mockEvent);
+
+      expect(loadLanguageSpy.calledOnce).to.be.true;
+      expect(loadLanguageSpy.calledWith('en')).to.be.true;
+    });
+
+    it('should call closeMenu after language change', async () => {
+      const mockEvent = { target: { value: 'en' } };
+
+      await component._onLanguageChange(mockEvent);
+
+      expect(closeMenuSpy.calledOnce).to.be.true;
+    });
   });
 });

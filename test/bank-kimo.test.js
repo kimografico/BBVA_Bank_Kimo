@@ -1,14 +1,17 @@
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
+import Sinon from 'sinon';
 import '../src/bank-kimo.js';
-
-// TODO: ¿Por qué no sale la lista de test en terminal?
-// TODO: ¿Como lanzo un test sobre un solo archivo?
 
 describe('BankKimo', () => {
   let element;
+
   beforeEach(async () => {
     element = await fixture(html`<bank-kimo></bank-kimo>`);
+  });
+
+  afterEach(() => {
+    Sinon.restore();
   });
 
   it('passes the a11y audit', async () => {
@@ -21,5 +24,15 @@ describe('BankKimo', () => {
 
     expect(header).to.exist;
     expect(footer).to.exist;
+  });
+
+  it('should execute _handleLanguageChange arrow function', async () => {
+    const updateTextsSpy = Sinon.spy(element, '_updateTexts');
+
+    element._handleLanguageChange();
+
+    expect(updateTextsSpy.calledOnce).to.be.true;
+
+    updateTextsSpy.restore();
   });
 });

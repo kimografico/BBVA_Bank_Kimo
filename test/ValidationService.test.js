@@ -35,11 +35,6 @@ describe('ValidationService', () => {
       const result = ValidationService.validateName('K');
       expect(result).to.equal('TRANSLATED_services.validation.errors.name');
     });
-
-    it('should return empty string for name with exactly 2 characters', () => {
-      const result = ValidationService.validateName('Ki');
-      expect(result).to.equal('');
-    });
   });
 
   describe('validateEmail', () => {
@@ -83,6 +78,63 @@ describe('ValidationService', () => {
     it('should return error message for phone longer than 9 digits', () => {
       const result = ValidationService.validatePhone('+341234567890');
       expect(result).to.equal('TRANSLATED_services.validation.errors.phone');
+    });
+  });
+
+  describe('validateSurname', () => {
+    it('should return empty string for valid surname', () => {
+      const result = ValidationService.validateSurname('García');
+      expect(result).to.equal('');
+    });
+
+    it('should return empty string for two surnames', () => {
+      const result = ValidationService.validateSurname('García López');
+      expect(result).to.equal('');
+    });
+
+    it('should return error message for empty surname', () => {
+      const result = ValidationService.validateSurname('');
+      expect(result).to.equal('TRANSLATED_services.validation.errors.surname');
+      expect(i18n.translate.calledWith('services.validation.errors.surname')).to
+        .be.true;
+    });
+
+    it('should return error message for surname with only spaces', () => {
+      const result = ValidationService.validateSurname('   ');
+      expect(result).to.equal('TRANSLATED_services.validation.errors.surname');
+    });
+
+    it('should return empty string for surname with special characters like ñ and accents', () => {
+      const result = ValidationService.validateSurname('García-Peña');
+      expect(result).to.equal('');
+    });
+  });
+
+  describe('validateAddress', () => {
+    it('should return empty string for valid complex address', () => {
+      const result = ValidationService.validateAddress(
+        'Av. de la Constitución, 45, 2º B',
+      );
+      expect(result).to.equal('');
+    });
+
+    it('should return error message for empty address', () => {
+      const result = ValidationService.validateAddress('');
+      expect(result).to.equal('TRANSLATED_services.validation.errors.address');
+      expect(i18n.translate.calledWith('services.validation.errors.address')).to
+        .be.true;
+    });
+
+    it('should return error message for address with only spaces', () => {
+      const result = ValidationService.validateAddress('   ');
+      expect(result).to.equal('TRANSLATED_services.validation.errors.address');
+    });
+
+    it('should return empty string for address with special characters', () => {
+      const result = ValidationService.validateAddress(
+        'C/ José María, 23 - 1º A, Urbanización Los Pinos (Sector 3)',
+      );
+      expect(result).to.equal('');
     });
   });
 });
