@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit';
-import { i18n } from '../services/LanguageService.js';
 
 export class Toast extends LitElement {
   static styles = css`
@@ -90,7 +89,7 @@ export class Toast extends LitElement {
         if (toast.parentNode) {
           toast.remove();
         }
-      }, 300); // esperar la animación
+      }, 300);
     }, duration);
   }
 
@@ -111,15 +110,7 @@ export class Toast extends LitElement {
   }
 
   render() {
-    const toastMessage =
-      this.message || i18n.translate(`ui.toast.${this.type}`);
-    return html`
-      <div id="toast-container">
-        <div class="toast ${this.type}">
-          <p>${toastMessage}</p>
-        </div>
-      </div>
-    `;
+    return html` <div id="toast-container"></div> `;
   }
 }
 

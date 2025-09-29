@@ -1,7 +1,7 @@
 import { fixture, html, expect } from '@open-wc/testing';
 import '../src/components/AccountDetail.js';
 
-describe('bk-account-detail (presentational)', () => {
+describe('bk-account-detail', () => {
   it('should render the component', async () => {
     const component = await fixture(
       html`<bk-account-detail></bk-account-detail>`,
@@ -15,7 +15,7 @@ describe('bk-account-detail (presentational)', () => {
     );
     const container = component.shadowRoot.querySelector('.container');
     expect(container).to.exist;
-    expect(container.textContent).to.include('Cargando detalles de la cuenta');
+    expect(container.textContent).to.include('account.loading-details');
   });
 
   it('should show an error message when error prop is set', async () => {

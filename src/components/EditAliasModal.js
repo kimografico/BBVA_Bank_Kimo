@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit';
 import styles from '../styles/EditAliasModal-styles.js';
-import { i18n } from '../services/LanguageService.js'; // Importar el servicio de traducción
+import { i18n } from '../services/LanguageService.js';
 
 export class EditAliasModal extends LitElement {
   static styles = styles;

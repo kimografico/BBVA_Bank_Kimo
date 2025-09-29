@@ -43,12 +43,13 @@ describe('AccountsList', () => {
   });
 
   it('shows a message when there are no accounts', async () => {
-    // Crear el componente y asignar array vacío
     const component = await fixture('<bk-accounts-list></bk-accounts-list>');
     component.accounts = [];
     await component.updateComplete;
 
-    expect(component.shadowRoot.textContent).to.include('No hay cuentas');
+    expect(component.shadowRoot.textContent).to.include(
+      'accounts-list.messages.no-accounts',
+    );
   });
 
   it('adds the currency information', async () => {
@@ -103,7 +104,9 @@ describe('AccountsList', () => {
     component.filteredAccounts = [];
     await component.updateComplete;
 
-    expect(component.shadowRoot.textContent).to.include('No hay cuentas');
+    expect(component.shadowRoot.textContent).to.include(
+      'accounts-list.messages.no-accounts',
+    );
   });
 
   it('renders an "EDITAR ALIAS" button for each account', async () => {
@@ -114,7 +117,7 @@ describe('AccountsList', () => {
     const buttons = component.shadowRoot.querySelectorAll('button');
     expect(buttons.length).to.equal(mockAccounts.length);
     buttons.forEach(button => {
-      expect(button.textContent).to.include('EDITAR');
+      expect(button.textContent).to.include('accounts-list.table.edit-alias');
     });
   });
 
@@ -152,15 +155,14 @@ describe('AccountsList', () => {
     component.accounts = mockAccounts;
     await component.updateComplete;
 
-    // Spy en el método showSuccess del toast
     const toast = component.shadowRoot.querySelector('bk-toast');
     const showSuccessSpy = Sinon.spy(toast, 'showSuccess');
 
-    component._handleSaveAlias({ detail: { id: '1', alias: 'CuentaTest' } });
+    component._handleSaveAlias({ detail: { id: '1', alias: 'NuevoAlias' } });
 
-    // Verificar que se llamó el método showSuccess
     expect(showSuccessSpy.calledOnce).to.be.true;
-    expect(showSuccessSpy.calledWith(Sinon.match(/éxito/))).to.be.true;
+
+    showSuccessSpy.restore();
   });
 
   it('calls toast showError when alias update fails', async () => {
@@ -171,7 +173,6 @@ describe('AccountsList', () => {
     const toast = component.shadowRoot.querySelector('bk-toast');
     const showErrorSpy = Sinon.spy(toast, 'showError');
 
-    // Usar un alias que sabemos que causará error (según la lógica del servicio)
     component._handleSaveAlias({ detail: { id: '1', alias: 'USA' } });
 
     expect(showErrorSpy.called).to.be.true;

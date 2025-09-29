@@ -130,9 +130,7 @@ export class UserProfile extends LitElement {
         .replace('{{name}}', this.user.name),
     );
 
-    // Actualiza originalUser con los datos actuales después de un éxito
     this.originalUser = { ...this.user };
-
     this._ChangeCards();
   }
 

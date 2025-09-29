@@ -16,12 +16,10 @@ describe('test pages', () => {
     const p = component.shadowRoot.querySelector('p');
 
     expect(h2).to.exist;
-    expect(h2.textContent).to.equal('Página no encontrada');
+    expect(h2.textContent).to.equal('page-not-found.title');
 
     expect(p).to.exist;
-    expect(p.textContent).to.equal(
-      'Lo sentimos, la página que buscas no existe.',
-    );
+    expect(p.textContent).to.equal('page-not-found.message');
   });
 
   it('should show the accounts page', async () => {
@@ -86,9 +84,7 @@ describe('account-detail-page', () => {
     const child = page.shadowRoot.querySelector('bk-account-detail');
     expect(child).to.exist;
     const container = child.shadowRoot.querySelector('.container');
-    expect(container.textContent).to.include(
-      'No se pudo encontrar la cuenta solicitada',
-    );
+    expect(container.textContent).to.include('account.error.not-found');
 
     AccountService.getAccount.restore();
   });
@@ -124,9 +120,7 @@ describe('account-detail-page', () => {
     expect(child).to.exist;
 
     const container = child.shadowRoot.querySelector('.container');
-    expect(container.textContent).to.include(
-      'Ocurrió un error al cargar la cuenta.',
-    );
+    expect(container.textContent).to.include('account.error.generic');
 
     AccountService.getAccount.restore();
   });
@@ -158,7 +152,7 @@ describe('account-detail-page', () => {
     const child = page.shadowRoot.querySelector('bk-account-detail');
     expect(child).to.exist;
     expect(child.transactions).to.deep.equal([]);
-    expect(child.error).to.equal('No se pudieron cargar las transacciones.');
+    expect(child.error).to.equal('account.transactions.error.loaded');
 
     AccountService.getAccount.restore();
     AccountService.getAccountTransactions.restore();

@@ -39,21 +39,19 @@ export class AccountsList extends LitElement {
   }
 
   _handleSaveAlias(event) {
-    const { id, alias } = event.detail; // DESESTRUCTURACIÓN: const id = event.detail.id; const alias = event.detail.alias;
-
+    const { id, alias } = event.detail;
     const toast = this.shadowRoot.querySelector('bk-toast');
     const message = AccountService.updateAccountAlias(id, alias);
 
-    if (message.includes('éxito')) {
+    if (message === 'OK') {
       toast.showSuccess(
-        i18n.translate('accounts-list.messages.success-update'),
+        i18n.translate('services.account.success.alias-updated'),
       );
     } else {
-      toast.showError(i18n.translate('accounts-list.messages.error-update'));
+      toast.showError(message);
     }
 
-    this.accounts = [...AccountService.getAccounts()]; // Para que se detecte y renderice el cambio hay que crear una copia de la lista
-
+    this.accounts = [...AccountService.getAccounts()];
     this._updateFilteredAccounts();
   }
 

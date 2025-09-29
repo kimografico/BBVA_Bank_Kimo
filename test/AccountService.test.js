@@ -60,7 +60,7 @@ describe('AccountsService', () => {
 
   it('should update the alias of an account', () => {
     const result = AccountService.updateAccountAlias('1', 'NuevoAlias');
-    expect(result).to.include('éxito');
+    expect(result).to.include('OK');
 
     const updatedAccount = AccountService.getAccounts().find(
       acc => acc.id === '1',
@@ -70,23 +70,22 @@ describe('AccountsService', () => {
 
   it('should return an error if the alias already exists', () => {
     const result = AccountService.updateAccountAlias('1', 'pagosonline');
-    expect(result).to.include('No se pudo cambiar el alias');
+    expect(result).to.include('services.account.errors.alias-exists');
   });
 
   it('should return an error if the alias is the same as the current one', () => {
     const result = AccountService.updateAccountAlias('1', 'COMPARTIDA');
-    expect(result).to.include('No se pudo cambiar el alias');
+    expect(result).to.include('services.account.errors.alias-same');
   });
 
   it('should return an error if the id does not exist', () => {
     const result = AccountService.updateAccountAlias('999', 'OtroAlias');
-    expect(result).to.include('Error');
-    expect(result).to.include('no existe');
+    expect(result).to.include('services.account.errors.account-not-found');
   });
 
   it('should treat aliases as case-sensitive', () => {
     const result = AccountService.updateAccountAlias('1', 'compartida');
-    expect(result).to.include('éxito');
+    expect(result).to.include('OK');
 
     const updatedAccount = AccountService.getAccounts().find(
       acc => acc.id === '1',

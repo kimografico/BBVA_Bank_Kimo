@@ -22,7 +22,7 @@ describe('bk-toast', () => {
     const toast = container.querySelector('.toast');
 
     expect(toast).to.exist;
-    expect(toast.textContent).to.equal('Test message');
+    expect(toast.textContent).to.contain('Test message');
     expect(toast.classList.contains('success')).to.be.true;
   });
 

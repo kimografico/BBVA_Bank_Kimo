@@ -61,7 +61,7 @@ export const AccountService = {
     }
 
     account.alias = alias; // Aqui se hace el cambio, sin necesidad de sustituir el array completo
-    return i18n.translate('services.account.success.alias-updated');
+    return 'OK';
   },
 };
 
