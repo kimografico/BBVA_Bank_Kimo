@@ -1,9 +1,7 @@
 ## Bank Kimo
-
 Aplicación web SPA de prueba con Lit Element
 
 ## Consta de:
-
 - Homepage
 - Lista de cuentas
 - Detalle de cuenta
@@ -12,7 +10,6 @@ Aplicación web SPA de prueba con Lit Element
 - Error 404
 
 ## He usado:
-
 - API local mediante jsonServer que recoge datos de un JSON
 - Spinner Loader
 - Modal para cambio de alias
@@ -21,7 +18,12 @@ Aplicación web SPA de prueba con Lit Element
 - Toast para los mensajes
 - Paginación configurable en transacciones
 
+## Testing:
+- 100% de Coverage, con Mocha, Chai y Sinon
+
 ## Capturas de pantalla:
+
+Desktop
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/fa5aa410-a2db-4b26-83dd-73229887be4f" />
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/71527672-4aa2-449b-ace4-4c27db301bc5" />
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/abb7399f-561e-4723-8673-fa71ef61d779" />
@@ -31,13 +33,13 @@ Aplicación web SPA de prueba con Lit Element
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/af8528c7-b612-49d8-8db7-a7a4e0f60e0a" />
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/96dade45-231d-4c9c-8176-1ea5e491e28a" />
 
-
+Detalles
 <img width="771" height="1033" alt="image" src="https://github.com/user-attachments/assets/1d0095ef-bf37-4fa9-94a2-b9aa0af5b52a" />
 <img width="789" height="676" alt="image" src="https://github.com/user-attachments/assets/d59351b1-7463-48eb-8418-0dc2614c73a7" />
 <img width="859" height="225" alt="image" src="https://github.com/user-attachments/assets/44c7f9ae-b0a1-4fba-9939-1788607678e2" />
 <img width="577" height="607" alt="image" src="https://github.com/user-attachments/assets/73c7ac00-1bf8-4774-906b-49e0ea457cc9" />
 
-
+Mobile
 <img width="409" height="734" alt="image" src="https://github.com/user-attachments/assets/e7ccca21-caa9-468f-85d0-f7da759ddeba" />
 <img width="407" height="731" alt="image" src="https://github.com/user-attachments/assets/4cf39783-67de-46f9-8a4a-b8d0492487fa" />
 <img width="410" height="738" alt="image" src="https://github.com/user-attachments/assets/b6193bae-2ebc-446d-8915-15ecba519513" />
