@@ -14,14 +14,12 @@ class BankKimo extends LanguageChangeMixin(LitElement) {
 
   static properties = {
     header: { type: String },
-    footer: { type: String },
   };
 
   constructor() {
     super();
     this.accounts = AccountService.getAccounts();
     this.header = '';
-    this.footer = '';
   }
 
   async connectedCallback() {
@@ -31,7 +29,6 @@ class BankKimo extends LanguageChangeMixin(LitElement) {
   }
 
   _updateTexts() {
-    this.footer = `© 2025 Kimo ◆ ${i18n.translate('footer.info')}`;
     this.header = i18n.translate('header.title');
   }
 
@@ -48,7 +45,7 @@ class BankKimo extends LanguageChangeMixin(LitElement) {
         <bk-loader></bk-loader>
         <div id="outlet"></div>
       </main>
-      <bk-footer .footerInfo=${this.footer}></bk-footer>
+      <bk-footer></bk-footer>
     `;
   }
 }

@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'lit';
+import { LanguageChangeMixin } from '../mixins/LanguageChangeMixin.js';
+import { i18n } from '../services/LanguageService.js';
 
-export class BankFooter extends LitElement {
+export class BankFooter extends LanguageChangeMixin(LitElement) {
   static styles = css`
     footer {
       font-size: 0.9rem;
@@ -30,17 +32,9 @@ export class BankFooter extends LitElement {
     }
   `;
 
-  static properties = {
-    footerInfo: { type: String },
-  };
-
-  constructor() {
-    super();
-    this.footerInfo = ''; // Valor inicial vacío
-  }
-
   render() {
-    return html`<footer><div>${this.footerInfo}</div></footer>`;
+    const footerText = `© 2025 Kimo ◆ ${i18n.translate('footer.info')}`;
+    return html`<footer><div>${footerText}</div></footer>`;
   }
 }
 
