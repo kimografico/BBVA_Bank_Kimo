@@ -3,9 +3,10 @@ import styles from '../styles/UserProfile-styles.js';
 import { UserService } from '../services/UserService.js';
 import { ValidationService } from '../services/ValidationService.js';
 import { i18n } from '../services/LanguageService.js';
+import { LanguageChangeMixin } from '../mixins/LanguageChangeMixin.js';
 import './toast.js';
 
-export class UserProfile extends LitElement {
+export class UserProfile extends LanguageChangeMixin(LitElement) {
   static styles = styles;
 
   static properties = {
@@ -23,22 +24,8 @@ export class UserProfile extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-
-    this._handleLanguageChange = () => {
-      this.requestUpdate();
-    };
-    document.addEventListener('language-changed', this._handleLanguageChange);
-
     this.user = UserService.getUser(1);
     this.originalUser = { ...this.user };
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    document.removeEventListener(
-      'language-changed',
-      this._handleLanguageChange,
-    );
   }
 
   _handleInput(event) {
@@ -51,7 +38,8 @@ export class UserProfile extends LitElement {
     };
   }
 
-  // Otras veces lo he hecho asi para evitar el switch, y me parece más limpio, pero menos legible. ¿Cómo lo haceis vosotros?
+  // Otras veces lo he hecho asi para evitar el switch, y me parece más limpio,
+  // pero menos legible. ¿Cómo lo haceis vosotros?
   static _validateField(field, value) {
     const validateFunctionsMap = {
       name: ValidationService.validateName,

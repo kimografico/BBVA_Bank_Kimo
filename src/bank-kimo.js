@@ -3,12 +3,13 @@ import { initRouter } from './router.js';
 import styles from './styles/bank-kimo-styles.js';
 import { AccountService } from './services/AccountService.js';
 import { i18n } from './services/LanguageService.js';
+import { LanguageChangeMixin } from './mixins/LanguageChangeMixin.js';
 import './components/AccountsList.js';
 import './components/Header.js';
 import './components/Footer.js';
 import './components/Loader.js';
 
-class BankKimo extends LitElement {
+class BankKimo extends LanguageChangeMixin(LitElement) {
   static styles = styles;
 
   static properties = {
@@ -25,12 +26,6 @@ class BankKimo extends LitElement {
 
   async connectedCallback() {
     super.connectedCallback();
-
-    this._handleLanguageChange = () => {
-      this._updateTexts();
-    };
-    document.addEventListener('language-changed', this._handleLanguageChange);
-
     await i18n.loadLanguage('es');
     this._updateTexts();
   }
@@ -38,14 +33,6 @@ class BankKimo extends LitElement {
   _updateTexts() {
     this.footer = `© 2025 Kimo ◆ ${i18n.translate('footer.info')}`;
     this.header = i18n.translate('header.title');
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    document.removeEventListener(
-      'language-changed',
-      this._handleLanguageChange,
-    );
   }
 
   firstUpdated() {

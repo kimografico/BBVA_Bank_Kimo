@@ -25,14 +25,4 @@ describe('BankKimo', () => {
     expect(header).to.exist;
     expect(footer).to.exist;
   });
-
-  it('should execute _handleLanguageChange arrow function', async () => {
-    const updateTextsSpy = Sinon.spy(element, '_updateTexts');
-
-    element._handleLanguageChange();
-
-    expect(updateTextsSpy.calledOnce).to.be.true;
-
-    updateTextsSpy.restore();
-  });
 });

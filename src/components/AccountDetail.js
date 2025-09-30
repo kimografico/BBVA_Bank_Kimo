@@ -1,8 +1,9 @@
 import { html, LitElement } from 'lit';
 import styles from '../styles/AccountDetail-styles.js';
 import { i18n } from '../services/LanguageService.js';
+import { LanguageChangeMixin } from '../mixins/LanguageChangeMixin.js';
 
-export class AccountDetail extends LitElement {
+export class AccountDetail extends LanguageChangeMixin(LitElement) {
   static styles = styles;
 
   static properties = {
@@ -20,23 +21,6 @@ export class AccountDetail extends LitElement {
     this.error = null;
     this.currentPage = 1;
     this.pageSize = 5;
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    this._handleLanguageChange = () => {
-      this.requestUpdate(); // Forzar re-render cuando cambie el idioma
-    };
-    document.addEventListener('language-changed', this._handleLanguageChange);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    document.removeEventListener(
-      'language-changed',
-      this._handleLanguageChange,
-    );
   }
 
   static _formatIBAN(iban) {

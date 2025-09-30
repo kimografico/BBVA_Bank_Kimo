@@ -3,8 +3,9 @@ import '../components/AccountDetail.js';
 import { Router } from '@vaadin/router';
 import { AccountService } from '../services/AccountService.js';
 import { i18n } from '../services/LanguageService.js';
+import { LanguageChangeMixin } from '../mixins/LanguageChangeMixin.js';
 
-export class AccountDetail extends LitElement {
+export class AccountDetail extends LanguageChangeMixin(LitElement) {
   static properties = {
     accountId: { type: Number },
     account: { type: Object },
@@ -34,23 +35,6 @@ export class AccountDetail extends LitElement {
   onBeforeEnter(location) {
     this.accountId = Number(location.params.id);
     this._loadAccount();
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    this._handleLanguageChange = () => {
-      this.requestUpdate(); // Forzar re-render cuando cambie el idioma
-    };
-    document.addEventListener('language-changed', this._handleLanguageChange);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    document.removeEventListener(
-      'language-changed',
-      this._handleLanguageChange,
-    );
   }
 
   async _loadAccount() {

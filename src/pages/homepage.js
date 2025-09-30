@@ -1,9 +1,10 @@
 import { LitElement, html } from 'lit';
 import { UserService } from '../services/UserService.js';
 import { i18n } from '../services/LanguageService.js';
+import { LanguageChangeMixin } from '../mixins/LanguageChangeMixin.js';
 import styles from '../styles/homepage-styles.js';
 
-export class HomePage extends LitElement {
+export class HomePage extends LanguageChangeMixin(LitElement) {
   static styles = styles;
 
   static properties = {
@@ -16,23 +17,6 @@ export class HomePage extends LitElement {
     const user = UserService.getUser(1);
     this.userName = `${user.name} ${user.surname}`;
     this.currentLanguage = 'es';
-  }
-
-  connectedCallback() {
-    super.connectedCallback();
-
-    this._handleLanguageChange = () => {
-      this.requestUpdate();
-    };
-    document.addEventListener('language-changed', this._handleLanguageChange);
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    document.removeEventListener(
-      'language-changed',
-      this._handleLanguageChange,
-    );
   }
 
   render() {

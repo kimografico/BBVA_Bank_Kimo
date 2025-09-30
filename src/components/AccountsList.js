@@ -5,8 +5,9 @@ import './EditAliasModal.js';
 import './toast.js';
 import { AccountService } from '../services/AccountService.js';
 import { i18n } from '../services/LanguageService.js';
+import { LanguageChangeMixin } from '../mixins/LanguageChangeMixin.js';
 
-export class AccountsList extends LitElement {
+export class AccountsList extends LanguageChangeMixin(LitElement) {
   static styles = styles;
 
   static properties = {
@@ -25,23 +26,10 @@ export class AccountsList extends LitElement {
   connectedCallback() {
     super.connectedCallback();
 
-    this._handleLanguageChange = () => {
-      this.requestUpdate(); // Forzar re-render cuando cambie el idioma
-    };
-    document.addEventListener('language-changed', this._handleLanguageChange);
-
     if (this.accounts.length === 0) {
       this.accounts = AccountService.getAccounts();
       this.filteredAccounts = this.accounts;
     }
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    document.removeEventListener(
-      'language-changed',
-      this._handleLanguageChange,
-    );
   }
 
   openEditModal(id, alias) {
