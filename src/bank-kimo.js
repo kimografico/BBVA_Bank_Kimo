@@ -8,6 +8,7 @@ import './components/AccountsList.js';
 import './components/Header.js';
 import './components/Footer.js';
 import './components/Loader.js';
+import { CONFIG } from './config.js';
 
 class BankKimo extends LanguageChangeMixin(LitElement) {
   static styles = styles;
@@ -24,7 +25,7 @@ class BankKimo extends LanguageChangeMixin(LitElement) {
 
   async connectedCallback() {
     super.connectedCallback();
-    await i18n.loadLanguage('es');
+    await i18n.loadLanguage(CONFIG.APP.DEFAULT_LANGUAGE);
     this._updateTexts();
   }
 

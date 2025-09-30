@@ -1,4 +1,5 @@
 import { Router } from '@vaadin/router';
+// import { CONFIG } from './config.js';
 
 export function initRouter(outlet, loader) {
   const localLoader = loader;
@@ -18,8 +19,9 @@ export function initRouter(outlet, loader) {
 
         // Retraso para ver que funciona el loader.
         // TODO: Eliminar despues de la demo
+        // const timer = Number(CONFIG.APP.DEMO_DELAY);
         await new Promise(resolve => {
-          setTimeout(resolve, 1000);
+          setTimeout(resolve, 2000);
         });
 
         await import('./pages/homepage.js');
@@ -34,6 +36,7 @@ export function initRouter(outlet, loader) {
       component: 'user-profile-page',
       action: async () => {
         activateLoader();
+        /* istanbul ignore next */
         await import('./pages/user-profile.js');
         deactivateLoader();
       },

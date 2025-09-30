@@ -32,6 +32,13 @@ export class BankFooter extends LanguageChangeMixin(LitElement) {
     }
   `;
 
+  connectedCallback() {
+    super.connectedCallback();
+    setTimeout(() => {
+      this.requestUpdate(); // Forzar actualización dando tiempo a cargar el idioma
+    }, 100);
+  }
+
   render() {
     const footerText = `© 2025 Kimo ◆ ${i18n.translate('footer.info')}`;
     return html`<footer><div>${footerText}</div></footer>`;

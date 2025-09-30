@@ -2,6 +2,7 @@ import { html, LitElement } from 'lit';
 import styles from '../styles/AccountDetail-styles.js';
 import { i18n } from '../services/LanguageService.js';
 import { LanguageChangeMixin } from '../mixins/LanguageChangeMixin.js';
+import { CONFIG } from '../config.js';
 
 export class AccountDetail extends LanguageChangeMixin(LitElement) {
   static styles = styles;
@@ -18,9 +19,9 @@ export class AccountDetail extends LanguageChangeMixin(LitElement) {
     super();
     this.account = null;
     this.transactions = [];
-    this.error = null;
+    this.error = '';
     this.currentPage = 1;
-    this.pageSize = 5;
+    this.pageSize = CONFIG.PAGINATION.DEFAULT_PAGE_SIZE;
   }
 
   static _formatIBAN(iban) {

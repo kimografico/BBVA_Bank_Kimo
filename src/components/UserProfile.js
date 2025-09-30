@@ -4,6 +4,7 @@ import { UserService } from '../services/UserService.js';
 import { ValidationService } from '../services/ValidationService.js';
 import { i18n } from '../services/LanguageService.js';
 import { LanguageChangeMixin } from '../mixins/LanguageChangeMixin.js';
+import { CONFIG } from '../config.js';
 import './toast.js';
 
 export class UserProfile extends LanguageChangeMixin(LitElement) {
@@ -24,7 +25,7 @@ export class UserProfile extends LanguageChangeMixin(LitElement) {
 
   connectedCallback() {
     super.connectedCallback();
-    this.user = UserService.getUser(1);
+    this.user = UserService.getUser(CONFIG.USER.DEFAULT_ID);
     this.originalUser = { ...this.user };
   }
 

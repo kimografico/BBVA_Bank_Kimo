@@ -1,8 +1,9 @@
+import { CONFIG } from '../config.js';
 import { i18n } from './LanguageService.js';
 
 export const ValidationService = {
   validateName(name) {
-    if (!name || name.trim().length < 2) {
+    if (!name || name.trim().length < CONFIG.VALIDATION.NAME_MIN_LENGTH) {
       return i18n.translate('services.validation.errors.name');
     }
     return '';
@@ -16,8 +17,7 @@ export const ValidationService = {
   },
 
   validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!CONFIG.VALIDATION.EMAIL_REGEX.test(email)) {
       return i18n.translate('services.validation.errors.email');
     }
     return '';
@@ -31,8 +31,7 @@ export const ValidationService = {
   },
 
   validatePhone(phone) {
-    const phoneRegex = /^\d{9}$/;
-    if (!phoneRegex.test(phone)) {
+    if (!CONFIG.VALIDATION.PHONE_REGEX.test(phone)) {
       return i18n.translate('services.validation.errors.phone');
     }
     return '';

@@ -9,7 +9,7 @@ const styles = css`
   .container {
     display: flex;
     justify-content: center;
-    padding: 40px;
+    padding: 15px 15px 30px 15px;
     font-family: 'Sansation', sans-serif;
     max-width: 1280px;
     margin: 0 auto;

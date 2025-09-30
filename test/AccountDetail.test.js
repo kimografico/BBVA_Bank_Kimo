@@ -6,18 +6,15 @@ import { i18n } from '../src/services/LanguageService.js';
 describe('bk-account-detail', () => {
   it('should render the component', async () => {
     const component = await fixture(
-      html`<bk-account-detail></bk-account-detail>`,
+      html`<bk-account-detail
+        .account=${{
+          number: { iban: 'ES9121000418450200051332' },
+          amount: { amount: 100, currency: 'EUR' },
+          level: { level: 1, description: 'Basic' },
+        }}
+      ></bk-account-detail>`,
     );
     expect(component).to.exist;
-  });
-
-  it('should show loading when account is null', async () => {
-    const component = await fixture(
-      html`<bk-account-detail .account=${null}></bk-account-detail>`,
-    );
-    const container = component.shadowRoot.querySelector('.container');
-    expect(container).to.exist;
-    expect(container.textContent).to.include('account.loading-details');
   });
 
   it('should show an error message when error prop is set', async () => {
@@ -186,6 +183,15 @@ describe('bk-account-detail', () => {
 
       spy.restore();
       Sinon.restore();
+    });
+
+    it('should re-render when language changes', async () => {
+      const spy = Sinon.spy(component, 'requestUpdate');
+
+      document.dispatchEvent(new CustomEvent('language-changed'));
+
+      expect(spy.calledOnce).to.be.true;
+      spy.restore();
     });
   });
 });

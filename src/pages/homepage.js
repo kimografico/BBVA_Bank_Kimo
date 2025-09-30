@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import { UserService } from '../services/UserService.js';
 import { i18n } from '../services/LanguageService.js';
 import { LanguageChangeMixin } from '../mixins/LanguageChangeMixin.js';
+import { CONFIG } from '../config.js';
 import styles from '../styles/homepage-styles.js';
 
 export class HomePage extends LanguageChangeMixin(LitElement) {
@@ -14,7 +15,7 @@ export class HomePage extends LanguageChangeMixin(LitElement) {
 
   constructor() {
     super();
-    const user = UserService.getUser(1);
+    const user = UserService.getUser(CONFIG.USER.DEFAULT_ID);
     this.userName = `${user.name} ${user.surname}`;
     this.currentLanguage = 'es';
   }

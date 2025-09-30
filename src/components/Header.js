@@ -2,6 +2,7 @@ import { LitElement, html } from 'lit';
 import styles from '../styles/header-styles.js';
 import { UserService } from '../services/UserService.js';
 import { i18n } from '../services/LanguageService.js';
+import { CONFIG } from '../config.js';
 
 export class BankHeader extends LitElement {
   static styles = styles;
@@ -15,7 +16,7 @@ export class BankHeader extends LitElement {
 
   constructor() {
     super();
-    const user = UserService.getUser(1);
+    const user = UserService.getUser(CONFIG.USER.DEFAULT_ID);
     this.userName = `${user.name} ${user.surname}`;
     this.isMenuOpen = false;
     this.currentLanguage = 'es';

@@ -1,11 +1,12 @@
 import { i18n } from './LanguageService.js';
+import { CONFIG } from '../config.js';
 
 export const AccountService = {
   _accounts: [],
 
   async loadApiAccounts() {
-    const apiUrl = 'http://localhost:3001/api/accounts/';
-    const response = await fetch(apiUrl);
+    const accountsApiUrl = `${CONFIG.API.BASE_URL}${CONFIG.API.ENDPOINTS.ACCOUNTS}`;
+    const response = await fetch(accountsApiUrl);
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
@@ -15,8 +16,8 @@ export const AccountService = {
   },
 
   async loadApiTransactions(id) {
-    const apiUrl = `http://localhost:3001/api/accounts/${id}/transactions`;
-    const response = await fetch(apiUrl);
+    const transactionsApiUrl = `${CONFIG.API.BASE_URL}${CONFIG.API.ENDPOINTS.TRANSACTIONS(id)}`;
+    const response = await fetch(transactionsApiUrl);
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
