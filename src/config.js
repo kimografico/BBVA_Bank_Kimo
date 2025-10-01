@@ -1,6 +1,8 @@
+const isLocal = window.location.hostname === 'localhost';
+
 export const CONFIG = {
   API: {
-    BASE_URL: 'http://localhost:3001/api',
+    BASE_URL: isLocal ? 'http://localhost:3001/api' : '/api',
     ENDPOINTS: {
       ACCOUNTS: '/accounts/',
       TRANSACTIONS: id => `/accounts/${id}/transactions`,
