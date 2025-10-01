@@ -7,7 +7,10 @@ export const CONFIG = {
     BASE_URL: isLocal ? 'http://localhost:3001/api' : '/api',
     ENDPOINTS: {
       ACCOUNTS: '/accounts/',
-      TRANSACTIONS: id => `/accounts/${id}/transactions`,
+      TRANSACTIONS: id =>
+        isLocal
+          ? `/accounts/${id}/transactions`
+          : `/account-transactions?id=${id}`,
     },
     TIMEOUT: 5000,
   },
