@@ -35,9 +35,16 @@ export const AccountService = {
     return found;
   },
 
-  getAccountTransactions(id) {
-    const transactions = this.loadApiTransactions(id);
-    return transactions;
+  async getAccountTransactions(id) {
+    try {
+      // ⭐ IMPORTANTE: Agregar await aquí
+      const transactions = await this.loadApiTransactions(id);
+      console.log('✅ Transactions loaded for account', id, ':', transactions);
+      return transactions;
+    } catch (error) {
+      console.error('❌ Error in getAccountTransactions:', error);
+      throw error; // Re-lanzar para que account-detail.js lo pueda manejar
+    }
   },
 
   aliasExist(alias) {

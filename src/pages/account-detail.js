@@ -53,7 +53,7 @@ export class AccountDetail extends LanguageChangeMixin(LitElement) {
           this.transactions = transactions;
         } catch (err) {
           this.transactions = [];
-          this.error = i18n.translate('account.transactions.error.loaded');
+          this.error = i18n.translate('account.error.loaded');
         }
       } else {
         this.error = i18n.translate('account.error.not-found');

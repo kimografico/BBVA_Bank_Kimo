@@ -202,7 +202,7 @@ describe('account-detail-page', () => {
     const child = page.shadowRoot.querySelector('bk-account-detail');
     expect(child).to.exist;
     expect(child.transactions).to.deep.equal([]);
-    expect(child.error).to.equal('account.transactions.error.loaded');
+    expect(child.error).to.equal('account.error.loaded');
 
     AccountService.getAccount.restore();
     AccountService.getAccountTransactions.restore();
