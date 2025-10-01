@@ -4,6 +4,7 @@ import { rollupPluginHTML as html } from '@web/rollup-plugin-html';
 import { importMetaAssets } from '@web/rollup-plugin-import-meta-assets';
 import esbuild from 'rollup-plugin-esbuild';
 import { generateSW } from 'rollup-plugin-workbox';
+import copy from 'rollup-plugin-copy';
 import path from 'path';
 
 export default {
@@ -18,6 +19,13 @@ export default {
   preserveEntrySignatures: false,
 
   plugins: [
+    /** Copy static assets first - DEBE IR PRIMERO */
+    copy({
+      targets: [
+        { src: 'assets/**/*', dest: 'dist/assets' },
+        { src: 'src/languages/**/*', dest: 'dist/src/languages' },
+      ],
+    }),
     /** Enable using HTML as rollup entrypoint */
     html({
       minify: true,

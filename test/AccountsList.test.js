@@ -2,6 +2,7 @@ import { fixture, expect } from '@open-wc/testing';
 
 import '../src/components/AccountsList.js';
 import Sinon from 'sinon';
+import { AccountService } from '../src/services/AccountService.js';
 
 describe('AccountsList', () => {
   const mockAccounts = [
@@ -141,6 +142,17 @@ describe('AccountsList', () => {
     component.accounts = mockAccounts;
     await component.updateComplete;
 
+    const updateStub = Sinon.stub(AccountService, 'updateAccountAlias').returns(
+      'OK',
+    );
+    const getAccountsStub = Sinon.stub(AccountService, 'getAccounts').returns([
+      {
+        ...mockAccounts[0],
+        alias: 'Nueva Cuenta',
+      },
+      mockAccounts[1],
+    ]);
+
     const newAlias = 'Nueva Cuenta';
     component._handleSaveAlias({ detail: { id: '1', alias: newAlias } });
 
@@ -148,12 +160,22 @@ describe('AccountsList', () => {
       account => account.id === '1',
     );
     expect(updatedAccount.alias).to.equal(newAlias);
+
+    updateStub.restore();
+    getAccountsStub.restore();
   });
 
   it('displays a success message when alias is updated successfully', async () => {
     const component = await fixture('<bk-accounts-list></bk-accounts-list>');
     component.accounts = mockAccounts;
     await component.updateComplete;
+
+    const updateStub = Sinon.stub(AccountService, 'updateAccountAlias').returns(
+      'OK',
+    );
+    const getAccountsStub = Sinon.stub(AccountService, 'getAccounts').returns(
+      mockAccounts,
+    );
 
     const toast = component.shadowRoot.querySelector('bk-toast');
     const showSuccessSpy = Sinon.spy(toast, 'showSuccess');
@@ -163,6 +185,8 @@ describe('AccountsList', () => {
     expect(showSuccessSpy.calledOnce).to.be.true;
 
     showSuccessSpy.restore();
+    updateStub.restore();
+    getAccountsStub.restore();
   });
 
   it('calls toast showError when alias update fails', async () => {
