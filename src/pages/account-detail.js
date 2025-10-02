@@ -21,9 +21,12 @@ export class AccountDetail extends LanguageChangeMixin(LitElement) {
       color: var(--primary-color);
       padding: 5px 15px 8px 15px;
       transition: 0.5s;
+
       &::before {
-        content: '🡨 ';
+        content: '← ';
+        font-weight: bold;
       }
+
       &:hover {
         cursor: pointer;
         background: var(--primary-color);
