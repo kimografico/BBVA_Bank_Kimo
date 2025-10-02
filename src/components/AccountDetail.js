@@ -164,14 +164,14 @@ export class AccountDetail extends LanguageChangeMixin(LitElement) {
                       @click=${this._prevPage}
                       ?disabled=${this.currentPage <= 1}
                     >
-                      ←
+                      ◀
                     </button>
                     <button
                       class="nav next"
                       @click=${this._nextPage}
                       ?disabled=${this.currentPage >= totalPages}
                     >
-                      →
+                      ▶
                     </button>
 
                     <select

@@ -23,7 +23,7 @@ export class AccountDetail extends LanguageChangeMixin(LitElement) {
       transition: 0.5s;
 
       &::before {
-        content: '← ';
+        content: '◀ ';
         font-weight: bold;
       }
 
